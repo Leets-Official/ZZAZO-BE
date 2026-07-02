@@ -28,10 +28,13 @@ public class AuthController {
     @Operation(
             summary = "이메일 인증번호 발송 (회원가입 1단계)",
             description = """
-                    회원가입 화면에서 사용자가 입력한 이메일로 6자리 인증번호를 발송합니다.
+                    회원가입 화면에서 사용자가 입력한 가천대학교 이메일로 6자리 인증번호를 발송합니다.
+
+                    이메일 도메인은 반드시 @gachon.ac.kr 이어야 합니다.
+                    학교 이메일 형식이 아니면 인증번호를 발송하지 않습니다.
 
                     [회원가입 전체 흐름]
-                    1단계 - 이메일 입력 후 인증번호 발송 (현재 API)
+                    1단계 - 가천대학교 이메일 입력 후 인증번호 발송 (현재 API)
                     2단계 - 이메일 인증번호 확인 (/api/auth/email/verify)
                     3단계 - 나머지 정보 입력 후 최종 회원가입 (/api/auth/signup)
 
@@ -51,13 +54,27 @@ public class AuthController {
             ),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "400",
-                    description = "잘못된 요청",
-                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
-                            {
-                              "status": 400,
-                              "message": "이메일 형식이 올바르지 않습니다."
-                            }
-                            """))
+                    description = "잘못된 요청 (학교 이메일이 아니거나 이메일 형식 오류)",
+                    content = @Content(mediaType = "application/json", examples = {
+                            @ExampleObject(
+                                    name = "학교 이메일이 아닌 경우",
+                                    value = """
+                                            {
+                                              "status": 400,
+                                              "message": "가천대학교 이메일(@gachon.ac.kr)만 사용할 수 있습니다."
+                                            }
+                                            """
+                            ),
+                            @ExampleObject(
+                                    name = "이메일 형식이 올바르지 않은 경우",
+                                    value = """
+                                            {
+                                              "status": 400,
+                                              "message": "이메일 형식이 올바르지 않습니다."
+                                            }
+                                            """
+                            )
+                    })
             )
     })
     @PostMapping("/email/send")
@@ -109,10 +126,10 @@ public class AuthController {
                     이메일 인증 완료 후 최종 회원가입을 진행합니다.
 
                     요청의 email 필드는 사용자가 직접 다시 입력하는 값이 아닙니다.
-                    회원가입 화면에서 이미 인증 완료된 이메일 값을 그대로 포함해 전송합니다.
+                    회원가입 화면에서 이미 인증 완료된 가천대학교 이메일(@gachon.ac.kr) 값을 그대로 포함해 전송합니다.
 
                     백엔드는 해당 이메일이 인증 완료 상태인지 확인한 뒤 가입을 처리합니다.
-                    이메일 인증이 완료되지 않은 경우 가입이 거부됩니다.
+                    이메일 인증이 완료되지 않았거나 학교 이메일(@gachon.ac.kr)이 아닌 경우 가입이 거부됩니다.
                     """
     )
     @ApiResponses({

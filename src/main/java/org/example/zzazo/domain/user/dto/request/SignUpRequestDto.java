@@ -18,11 +18,15 @@ public class SignUpRequestDto {
     private Long studentId;
 
     @Schema(
-            description = "이메일 인증이 완료된 이메일 주소. 사용자가 재입력하는 값이 아니라 회원가입 화면에서 인증 완료된 이메일 값을 그대로 포함해 전송합니다.",
-            example = "student@university.ac.kr"
+            description = "인증 완료된 가천대학교 이메일(@gachon.ac.kr). 사용자가 재입력하는 값이 아니라 회원가입 화면에서 인증 완료된 이메일 값을 그대로 포함해 전송합니다.",
+            example = "student@gachon.ac.kr"
     )
     @NotBlank
     @Email
+    @Pattern(
+            regexp = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@gachon\\.ac\\.kr$",
+            message = "가천대학교 이메일(@gachon.ac.kr)만 사용할 수 있습니다."
+    )
     private String email;
 
     @Schema(example = "password123!")
