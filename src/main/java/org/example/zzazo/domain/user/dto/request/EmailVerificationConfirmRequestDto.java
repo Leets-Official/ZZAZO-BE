@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+// 이메일 인증번호 확인 요청 정보
 public class EmailVerificationConfirmRequestDto {
 
     @Schema(example = "student@university.ac.kr")

@@ -12,7 +12,6 @@ import org.example.zzazo.domain.user.dto.request.LoginRequestDto;
 import org.example.zzazo.domain.user.dto.request.SignUpRequestDto;
 import org.example.zzazo.domain.user.dto.response.LoginResponseDto;
 import org.example.zzazo.domain.user.dto.response.SignUpResponseDto;
-import org.example.zzazo.domain.user.enums.Role;
 import org.example.zzazo.global.common.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Auth", description = "인증 API")
 @RestController
 @RequestMapping("/api/auth")
+// 인증 관련 API Controller
 public class AuthController {
 
+    // 이메일 인증번호 발송
     @Operation(
             summary = "이메일 인증번호 발송 (회원가입 1단계)",
             description = """
@@ -83,6 +84,7 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("인증번호가 발송되었습니다.", null));
     }
 
+    // 이메일 인증번호 확인
     @Operation(
             summary = "이메일 인증번호 확인 (회원가입 2단계)",
             description = """
@@ -120,6 +122,7 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("이메일 인증이 완료되었습니다.", null));
     }
 
+    // 회원가입
     @Operation(
             summary = "회원가입 (회원가입 3단계)",
             description = """
@@ -145,8 +148,7 @@ public class AuthController {
                                 "email": "student@university.ac.kr",
                                 "grade": 2,
                                 "departmentId": 3,
-                                "studentId": 20210001,
-                                "role": "USER"
+                                "studentId": 20210001
                               }
                             }
                             """))
@@ -191,11 +193,11 @@ public class AuthController {
                 .grade(request.getGrade())
                 .departmentId(request.getDepartmentId())
                 .studentId(request.getStudentId())
-                .role(Role.USER)
                 .build();
         return ResponseEntity.status(201).body(ApiResponse.success(response));
     }
 
+    // 로그인
     @Operation(summary = "로그인", description = "이메일과 비밀번호로 로그인합니다.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
@@ -207,8 +209,7 @@ public class AuthController {
                               "message": "success",
                               "data": {
                                 "userId": 1,
-                                "email": "student@university.ac.kr",
-                                "role": "USER"
+                                "email": "student@university.ac.kr"
                               }
                             }
                             """))
@@ -240,11 +241,11 @@ public class AuthController {
         LoginResponseDto response = LoginResponseDto.builder()
                 .userId(1L)
                 .email(request.getEmail())
-                .role(Role.USER)
                 .build();
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
+    // 로그아웃
     @Operation(summary = "로그아웃", description = "로그인된 사용자를 로그아웃합니다.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(

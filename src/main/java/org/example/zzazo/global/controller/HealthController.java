@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Health", description = "서버 상태 확인 API")
 @RestController
 @RequestMapping("/api")
+// 서버 상태 확인 API Controller
 public class HealthController {
 
+    // 서버 상태 확인
     @Operation(summary = "헬스 체크", description = "서버가 정상적으로 실행 중인지 확인합니다.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(

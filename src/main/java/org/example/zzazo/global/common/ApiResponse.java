@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+// API 공통 응답 래퍼
 public class ApiResponse<T> {
 
     @Schema(example = "200")
@@ -18,6 +19,7 @@ public class ApiResponse<T> {
 
     private T data;
 
+    // 데이터 포함 성공 응답 생성
     public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.<T>builder()
                 .status(200)
@@ -26,6 +28,7 @@ public class ApiResponse<T> {
                 .build();
     }
 
+    // 메시지와 데이터 포함 성공 응답 생성
     public static <T> ApiResponse<T> success(String message, T data) {
         return ApiResponse.<T>builder()
                 .status(200)

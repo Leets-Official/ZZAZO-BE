@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+// 로그인 요청 정보
 public class LoginRequestDto {
 
     @Schema(example = "student@university.ac.kr")

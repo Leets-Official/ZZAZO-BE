@@ -2,12 +2,12 @@ package org.example.zzazo.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.zzazo.domain.user.enums.Role;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+// 회원 정보 엔티티
 @Entity
 @Table(name = "users")
 @Getter
@@ -36,10 +36,7 @@ public class User {
     @Column(name = "grade", nullable = false)
     private int grade;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private Role role;
-
+    // 이메일 인증 완료 여부
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 

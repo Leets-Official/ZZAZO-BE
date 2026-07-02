@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+// 회원가입 요청 정보
 public class SignUpRequestDto {
 
     @Schema(example = "3")

@@ -6,6 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
+// 헬스 체크 응답 정보
 public class HealthResponseDto {
 
     @Schema(example = "UP")
