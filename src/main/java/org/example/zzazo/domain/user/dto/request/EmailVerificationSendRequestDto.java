@@ -1,0 +1,15 @@
+package org.example.zzazo.domain.user.dto.request;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class EmailVerificationSendRequestDto {
+
+    @NotBlank
+    @Email
+    private String email;
+}
