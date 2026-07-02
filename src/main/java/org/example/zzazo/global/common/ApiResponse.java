@@ -1,7 +1,7 @@
 package org.example.zzazo.global.common;
 
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AccessLevel;
@@ -20,8 +20,6 @@ public class ApiResponse <T> {
     private final String code;
     private final String message;
 
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private final T data;
 
 
