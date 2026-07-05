@@ -58,8 +58,8 @@ public interface RecommendControllerDocs {
                                 "satisfiedFreeDays": ["FRI"],
                                 "timetables": [
                                   {
-                                    "courseId": 13,
-                                    "courseName": "경영학원론",
+                                    "lectureId": 13,
+                                    "lectureName": "경영학원론",
                                     "credit": 3,
                                     "lectureClassification": "전공필수",
                                     "lectureTime": [
@@ -76,8 +76,8 @@ public interface RecommendControllerDocs {
                                     ]
                                   },
                                   {
-                                    "courseId": 17,
-                                    "courseName": "경제학원론",
+                                    "lectureId": 17,
+                                    "lectureName": "경제학원론",
                                     "credit": 3,
                                     "lectureClassification": "전공선택",
                                     "lectureTime": [
