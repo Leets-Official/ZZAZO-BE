@@ -11,5 +11,6 @@ public enum Week {
     FRI("금"),
     SAT("토"),
     SUN("일");
+
     private final String value;
 }
