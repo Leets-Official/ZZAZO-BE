@@ -6,12 +6,13 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.example.zzazo.domain.recommend.domain.Priority;
 import org.example.zzazo.global.common.Week;
 
 import java.util.List;
 
 public class RecommendRequest {
-    public record createRecommend(
+    public record createRecommendRequest(
 
             @Schema(
                     description = "사용자의 학과 ID",
@@ -66,7 +67,12 @@ public class RecommendRequest {
                     description = "사용자가 선택한 시간표에 포함할 강의 ID 목록",
                     example = "[13, 16, 17]"
             )
-            List<Long> selectedLectureIds
+            List<Long> selectedLectureIds,
+            @Schema(
+                    description = "시간표 추천 기준 선택 FREE_PERIOD(공강 우선),LECTURE_CRITERIA(수강기준 우선)",
+                    example = "FREE_PERIOD"
+            )
+            Priority priority
             ) {
 
     }
