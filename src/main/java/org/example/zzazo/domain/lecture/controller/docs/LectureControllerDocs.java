@@ -243,4 +243,43 @@ public interface LectureControllerDocs {
             )
             int semester
     );
+
+
+    @Operation(
+            summary = "교양 세부 구분목록 조회",
+            description = """
+                    교양 과목의 세부 구분목록을 조회합니다.
+                    """
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "교양 세부 구분목록 조회 성공",
+                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": true,
+                              "code": "COMMON_200_1",
+                              "message": "요청 응답 성공",
+                              "data": {
+                                "categories": [
+                                  {
+                                    "code": "COMMUNICATION",
+                                    "name": "의사소통"
+                                  },
+                                  {
+                                    "code": "AI_BASIC",
+                                    "name": "AI기초"
+                                  },
+                                  {
+                                    "code": "GACHON_VISION",
+                                    "name": "가천비전"
+                                  }
+                                ]
+                              }
+                            }
+                            """))
+            )
+    })
+    ApiResponse<LectureResponse.LiberalCategoryList> getLiberalCategoryList();
+
 }

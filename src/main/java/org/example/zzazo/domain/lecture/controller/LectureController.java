@@ -32,4 +32,10 @@ public class LectureController implements LectureControllerDocs {
     ) {
         return ApiResponse.success(BaseSuccessCode.GENERAL_OK);
     }
+
+    @Override
+    @GetMapping("/liberal-categories")
+    public ApiResponse<LectureResponse.LiberalCategoryList> getLiberalCategoryList() {
+        return ApiResponse.success(BaseSuccessCode.GENERAL_OK);
+    }
 }
