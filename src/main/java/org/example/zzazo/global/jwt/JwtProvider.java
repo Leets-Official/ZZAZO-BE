@@ -1,5 +1,6 @@
 package org.example.zzazo.global.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -39,6 +40,15 @@ public class JwtProvider {
 
     public long getRefreshTokenExpiration() {
         return refreshTokenExpiration;
+    }
+
+    // 토큰 서명/만료 검증 후 Claims 반환. 만료/위조/파싱 실패 시 jjwt의 unchecked 예외를 그대로 전파한다.
+    public Claims parseClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private String createToken(Long userId, String email, long expirationMillis) {

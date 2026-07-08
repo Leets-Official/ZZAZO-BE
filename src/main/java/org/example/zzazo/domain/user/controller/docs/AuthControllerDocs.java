@@ -322,7 +322,22 @@ public interface AuthControllerDocs {
 
     @Operation(
             summary = "로그아웃",
-            description = "로그인된 사용자를 로그아웃합니다. 별도의 요청 바디는 필요하지 않습니다."
+            description = """
+                    클라이언트가 보유한 refreshToken을 서버에 전달하여 로그아웃을 처리합니다.
+
+                    서버는 전달받은 refreshToken의 서명과 만료 여부를 검증한 뒤, DB에 저장된 refreshToken을 조회하여 일치하는 경우 삭제합니다.
+                    accessToken은 stateless 방식으로 발급되므로 서버에서 별도로 무효화하지 않습니다.
+                    로그아웃 응답을 받으면 클라이언트는 보관 중인 accessToken과 refreshToken을 모두 삭제해야 합니다.
+                    """
+    )
+    @RequestBody(
+            required = true,
+            description = "로그아웃할 refreshToken",
+            content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+                    {
+                      "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.refreshTokenExample"
+                    }
+                    """))
     )
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
@@ -338,17 +353,49 @@ public interface AuthControllerDocs {
                             """))
             ),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "인증되지 않은 사용자",
+                    responseCode = "400",
+                    description = "잘못된 요청 (refreshToken 누락)",
                     content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
                             {
                               "isSuccess": false,
-                              "code": "AUTH_401_2",
-                              "message": "인증되지 않은 사용자입니다.",
-                              "data": null
+                              "code": "COMMON_400_2",
+                              "message": "입력값이 올바르지 않습니다.",
+                              "data": {
+                                "refreshToken": "공백일 수 없습니다"
+                              }
                             }
                             """))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "유효하지 않은 refreshToken (만료 / 위조·파싱 실패 / DB에 존재하지 않음)",
+                    content = @Content(mediaType = "application/json", examples = {
+                            @ExampleObject(name = "만료된 refreshToken", value = """
+                                    {
+                                      "isSuccess": false,
+                                      "code": "AUTH_401_2",
+                                      "message": "리프레시 토큰이 만료되었습니다.",
+                                      "data": null
+                                    }
+                                    """),
+                            @ExampleObject(name = "위조되었거나 파싱할 수 없는 refreshToken", value = """
+                                    {
+                                      "isSuccess": false,
+                                      "code": "AUTH_401_3",
+                                      "message": "유효하지 않은 리프레시 토큰입니다.",
+                                      "data": null
+                                    }
+                                    """),
+                            @ExampleObject(name = "DB에 존재하지 않는 refreshToken (이미 로그아웃됨)", value = """
+                                    {
+                                      "isSuccess": false,
+                                      "code": "AUTH_401_4",
+                                      "message": "이미 로그아웃되었거나 존재하지 않는 리프레시 토큰입니다.",
+                                      "data": null
+                                    }
+                                    """)
+                    })
             )
     })
-    ResponseEntity<ApiResponse<Void>> logout();
+    ResponseEntity<ApiResponse<Void>> logout(UserRequest.LogoutRequest request);
 }

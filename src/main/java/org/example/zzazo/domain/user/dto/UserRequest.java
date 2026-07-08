@@ -80,4 +80,12 @@ public class UserRequest {
             String password
     ) {
     }
+
+    // 로그아웃 요청 정보
+    public record LogoutRequest(
+            @Schema(example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.refreshTokenExample")
+            @NotBlank
+            String refreshToken
+    ) {
+    }
 }

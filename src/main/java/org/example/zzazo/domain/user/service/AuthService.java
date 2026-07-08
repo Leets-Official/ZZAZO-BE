@@ -1,5 +1,7 @@
 package org.example.zzazo.domain.user.service;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.example.zzazo.domain.user.dto.UserRequest;
 import org.example.zzazo.domain.user.dto.UserResponse;
@@ -155,6 +157,23 @@ public class AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    // 로그아웃
+    @Transactional
+    public void logout(String refreshToken) {
+        try {
+            jwtProvider.parseClaims(refreshToken);
+        } catch (ExpiredJwtException e) {
+            throw new CustomException(BaseErrorCode.REFRESH_TOKEN_EXPIRED);
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new CustomException(BaseErrorCode.REFRESH_TOKEN_INVALID);
+        }
+
+        RefreshToken refreshTokenEntity = refreshTokenRepository.findByToken(refreshToken)
+                .orElseThrow(() -> new CustomException(BaseErrorCode.REFRESH_TOKEN_NOT_FOUND));
+
+        refreshTokenRepository.delete(refreshTokenEntity);
     }
 
     private void validateSchoolEmail(String email) {

@@ -62,7 +62,9 @@ public class AuthController implements AuthControllerDocs {
     // 로그아웃
     @Override
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logout() {
+    public ResponseEntity<ApiResponse<Void>> logout(
+            @Valid @RequestBody UserRequest.LogoutRequest request) {
+        authService.logout(request.refreshToken());
         return ResponseEntity.ok(ApiResponse.success(BaseSuccessCode.GENERAL_OK));
     }
 }
