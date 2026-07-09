@@ -304,18 +304,6 @@ public interface AuthControllerDocs {
                               "data": null
                             }
                             """))
-            ),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "403",
-                    description = "이메일 인증 미완료",
-                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
-                            {
-                              "isSuccess": false,
-                              "code": "AUTH_403_1",
-                              "message": "이메일 인증이 완료되지 않았습니다.",
-                              "data": null
-                            }
-                            """))
             )
     })
     ResponseEntity<ApiResponse<UserResponse.LoginResponse>> login(UserRequest.LoginRequest request);

@@ -134,10 +134,6 @@ public class AuthService {
             throw new CustomException(AuthErrorCode.LOGIN_FAILED);
         }
 
-        if (!user.isEmailVerified()) {
-            throw new CustomException(AuthErrorCode.EMAIL_NOT_VERIFIED);
-        }
-
         String accessToken = jwtProvider.createAccessToken(user.getUserId(), user.getEmail());
         String refreshToken = jwtProvider.createRefreshToken(user.getUserId());
         LocalDateTime refreshTokenExpiredAt = LocalDateTime.now()
