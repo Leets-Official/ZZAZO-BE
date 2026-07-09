@@ -39,3 +39,8 @@ out/
 ### env ###
 
 *.env.*
+
+
+docker-compose.yml
+src/main/resources/data.sql
+src/main/resources/application-local.yaml
