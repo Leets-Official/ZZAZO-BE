@@ -2,6 +2,7 @@ package org.example.zzazo.domain.lecture.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import org.example.zzazo.domain.lecture.domain.LectureClassification;
 import org.example.zzazo.domain.lecture.domain.LiberalCategory;
 import org.example.zzazo.global.common.Week;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public class LectureResponse {
     //강의 목록조회 DTO
+    @Builder
+    @Schema(name = "LectureListResponse")
     public record LectureList(
             @Schema(description = "강의 목록")
             List<Lecture> lectures
@@ -17,6 +20,7 @@ public class LectureResponse {
     }
 
     @Schema(description = "강의 목록 조회 응답")
+    @Builder
     public record Lecture(
             @Schema(description = "강의 ID",example = "1")
             Long lectureId,
@@ -32,6 +36,7 @@ public class LectureResponse {
 
     }
 
+    @Builder
     public record LectureTime(
             @Schema(description = "강의 시작시간",example = "13:00")
             @JsonFormat(pattern = "HH:mm")
@@ -45,6 +50,7 @@ public class LectureResponse {
 
     }
 
+    @Builder
     @Schema(description = "교양 과목 세부구분 목록 조회 응답")
     public record LiberalCategoryList(List<Category> liberalCategoryList) {
         @Schema(description = "교양강의 세부 구분")
