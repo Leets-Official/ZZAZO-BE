@@ -22,6 +22,30 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException e, HttpServletRequest request) {
+        log.warn("[CustomException] {} {} - {}",
+                request.getMethod(),
+                request.getRequestURI(),
+                e.getMessage());
+
+        return ResponseEntity
+                .status(e.getErrorCode().getStatus())
+                .body(ApiResponse.failure(e.getErrorCode()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        Map<String, String> errors = new LinkedHashMap<>();
+        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
+            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+
+        return ResponseEntity
+                .status(BaseErrorCode.VALIDATION_ERROR.getStatus())
+                .body(ApiResponse.failure(BaseErrorCode.VALIDATION_ERROR, errors));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleException(Exception e, HttpServletRequest request) {
         log.error("[Unhandled Exception] {} {} - Status: 500",
