@@ -1,10 +1,10 @@
 package org.example.zzazo.domain.lecture.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.zzazo.domain.LectureSchedule.entity.LectureSchedule;
+import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 import org.example.zzazo.domain.lecture.domain.LectureClassification;
 import org.example.zzazo.domain.lecture.domain.LiberalCategory;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity @Table(name = "lecture")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Lecture {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Lecture {
     private String name;
 
     @Column(name = "credit", nullable = false)
-    int credit;
+    private int credit;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "course_classification",nullable = false,length = 50)
@@ -55,25 +55,5 @@ public class Lecture {
 
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LectureSchedule> lectureSchedules = new ArrayList<>();
-
-
-    @Builder
-    private Lecture(String name,
-                    LectureClassification lectureClassification,
-                    int year,
-                    int grade,
-                    String classroom,
-                    String professor,
-                    String courseCode
-    ) {
-        this.name = name;
-        this.lectureClassification = lectureClassification;
-        this.year = year;
-        this.grade = grade;
-        this.classroom = classroom;
-        this.professor = professor;
-        this.courseCode = courseCode;
-
-    }
 
 }
