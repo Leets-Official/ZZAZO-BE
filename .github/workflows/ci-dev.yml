@@ -1,4 +1,4 @@
-name: [CI] 빌드 및 도커 이미지 푸시
+name: "[CI] 빌드 및 도커 이미지 푸시"
 
 on:
   push:
@@ -7,11 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy-production:
-    # 원본 저장소에서만 실행
-    if: github.repository == 'Leets-Official/ZZAZO-BE'
-
   build-and-push:
+    if: github.repository == 'Leets-Official/ZZAZO-BE'
     runs-on: ubuntu-latest
 
     steps:
