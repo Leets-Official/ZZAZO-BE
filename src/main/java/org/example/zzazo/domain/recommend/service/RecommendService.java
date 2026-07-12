@@ -1,7 +1,7 @@
 package org.example.zzazo.domain.recommend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.zzazo.domain.LectureSchedule.entity.LectureSchedule;
+import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 import org.example.zzazo.domain.curriculum.entity.Curriculum;
 import org.example.zzazo.domain.curriculum.repository.CurriculumRepository;
 import org.example.zzazo.domain.department.repository.DepartmentRepository;
@@ -69,33 +69,24 @@ public class RecommendService {
             }
             Lecture lecture = candidate.getLecture();
             int nextCredit = totalCredit + lecture.getCredit();
-            if (hasTimeConflict(lecture, selected)) {
+            if (hasTimeConflict(lecture, selected) || nextCredit >=30) {
                 continue;
             }
             selected.add(candidate.getLecture());
             totalCredit = nextCredit;
         }
 
+        if(totalCredit < request.targetCredits()) {
+            throw new CustomException(RecommendErrorCode.RECOMMEND_NOT_EXISTS);
+        }
+
         List<RecommendResponse.Lecture> result = selected.stream()
-                .map(l -> new RecommendResponse.Lecture(
-                        l.getId(),
-                        l.getName(),
-                        l.getCredit(),
-                        l.getProfessor(),
-                        l.getClassroom(),
-                        l.getLectureClassification(),
-                        l.getLectureSchedules().stream()
-                                .map(lectureSchedule -> new RecommendResponse.Lecture.LectureTime(
-                                        lectureSchedule.getStartTime(),
-                                        lectureSchedule.getEndTime(),
-                                        lectureSchedule.getDayOfWeek()
-                                )).toList()
-                        )
-                )
+                .map(RecommendResponse.Lecture::from)
                 .toList();
 
         return new RecommendResponse.RecommendResult(totalCredit,getFreeDays(selected),result);
     }
+
 
     private List<Lecture> putRequired(RecommendRequest.createRecommendRequest request) {
         List<Lecture> selected = new ArrayList<>();

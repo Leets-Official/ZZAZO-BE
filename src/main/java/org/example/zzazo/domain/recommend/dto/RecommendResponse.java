@@ -3,8 +3,9 @@ package org.example.zzazo.domain.recommend.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import org.example.zzazo.domain.LectureSchedule.entity.LectureSchedule;
 import org.example.zzazo.domain.lecture.domain.LectureClassification;
+import org.example.zzazo.domain.lecture.entity.Lecture;
+import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 import org.example.zzazo.global.common.Week;
 
 import java.time.LocalTime;
@@ -44,23 +45,15 @@ public class RecommendResponse {
             @Schema(description = "강의시간")
             List<LectureTime> lectureTime
             ) {
-        public static Lecture from(
-                Long lectureId,
-                String lectureName,
-                int credit,
-                String professor,
-                String classroom,
-                LectureClassification lectureClassification,
-                List<LectureTime> lectureTime
-        ) {
+        public static Lecture from(org.example.zzazo.domain.lecture.entity.Lecture l) {
             return new Lecture(
-                    lectureId,
-                    lectureName,
-                    credit,
-                    professor,
-                    classroom,
-                    lectureClassification,
-                    lectureTime
+                    l.getId(),
+                    l.getName(),
+                    l.getCredit(),
+                    l.getProfessor(),
+                    l.getClassroom(),
+                    l.getLectureClassification(),
+                    l.getLectureSchedules().stream().map(LectureTime::from).toList()
             );
         }
 
@@ -74,8 +67,8 @@ public class RecommendResponse {
                 @Schema(description = "강의 요일",example = "MON")
                 Week dayOfWeek
         ) {
-            public static LectureTime from(LocalTime startTime,LocalTime endTime,Week dayOfWeek) {
-                return new LectureTime(startTime,endTime,dayOfWeek);
+            public static LectureTime from(LectureSchedule l) {
+                return new LectureTime(l.getStartTime(),l.getEndTime(),l.getDayOfWeek());
             }
 
         }
