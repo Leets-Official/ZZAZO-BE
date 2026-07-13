@@ -2,12 +2,11 @@ package org.example.zzazo.domain.lecture.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 import org.example.zzazo.domain.lecture.domain.LectureClassification;
 import org.example.zzazo.domain.lecture.domain.LiberalCategory;
+import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +57,5 @@ public class Lecture {
     private List<LectureSchedule> lectureSchedules = new ArrayList<>();
 
 
-
-
-    }
 
 }
