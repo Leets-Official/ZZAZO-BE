@@ -62,4 +62,14 @@ public class Lecture {
     private List<LectureSchedule> lectureSchedules = new ArrayList<>();
 
 
+    public boolean isOverlapWith(Lecture other) {
+        for (LectureSchedule mySchedule : this.lectureSchedules) {
+            for (LectureSchedule otherSchedule : other.getLectureSchedules()) {
+                if (mySchedule.isOverlap(otherSchedule)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
