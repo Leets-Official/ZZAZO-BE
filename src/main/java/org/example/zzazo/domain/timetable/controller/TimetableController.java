@@ -6,6 +6,9 @@ import org.example.zzazo.domain.timetable.dto.TimetableCreateRequest;
 import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
 import org.example.zzazo.domain.timetable.dto.TimetableDetailResponse;
 import org.example.zzazo.domain.timetable.dto.TimetableListResponse;
+import org.example.zzazo.domain.timetable.service.TimetableService;
+import org.example.zzazo.global.code.BaseSuccessCode;
+import org.example.zzazo.global.common.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,27 +23,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/timetables")
 public class TimetableController implements TimetableControllerDocs {
 
+    private final TimetableService timetableService;
+
+    public TimetableController(TimetableService timetableService) {
+        this.timetableService = timetableService;
+    }
+
     @Override
     @PostMapping
-    public ResponseEntity<TimetableCreateResponse> createTimetable(
+    public ResponseEntity<ApiResponse<TimetableCreateResponse>> createTimetable(
             @Valid @RequestBody TimetableCreateRequest request
     ) {
+        TimetableCreateResponse response = timetableService.createTimetable(request);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new TimetableCreateResponse(1L, "시간표가 저장되었습니다."));
+                .body(ApiResponse.success(BaseSuccessCode.GENERAL_CREATED, response));
     }
 
     @Override
     @GetMapping
-    public ResponseEntity<TimetableListResponse> getTimetables() {
-        return ResponseEntity.ok(TimetableListResponse.example());
+    public ApiResponse<TimetableListResponse> getTimetables() {
+        return ApiResponse.success(BaseSuccessCode.GENERAL_OK, TimetableListResponse.example());
     }
 
     @Override
     @GetMapping("/{timetableId}")
-    public ResponseEntity<TimetableDetailResponse> getTimetable(
+    public ApiResponse<TimetableDetailResponse> getTimetable(
             @PathVariable Long timetableId
     ) {
-        return ResponseEntity.ok(TimetableDetailResponse.example(timetableId));
+        return ApiResponse.success(BaseSuccessCode.GENERAL_OK, TimetableDetailResponse.example(timetableId));
     }
 
     @Override
