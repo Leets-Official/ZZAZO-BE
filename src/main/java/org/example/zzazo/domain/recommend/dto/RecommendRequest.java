@@ -72,6 +72,7 @@ public class RecommendRequest {
                     description = "시간표 추천 기준 선택 FREE_PERIOD(공강 우선),LECTURE_CRITERIA(수강기준 우선)",
                     example = "FREE_PERIOD"
             )
+            @NotNull(message = "추천 기준 선택은 필수입니다.")
             Priority priority
             ) {
 
