@@ -5,7 +5,9 @@ import org.example.zzazo.domain.timetable.dto.TimetableCreateRequest;
 import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
 import org.example.zzazo.domain.timetable.entity.Lecture;
 import org.example.zzazo.domain.timetable.entity.Timetable;
+import org.example.zzazo.domain.timetable.entity.TimetableLecture;
 import org.example.zzazo.domain.timetable.repository.LectureRepository;
+import org.example.zzazo.domain.timetable.repository.TimetableLectureRepository;
 import org.example.zzazo.domain.timetable.repository.TimetableRepository;
 import org.example.zzazo.domain.user.entity.User;
 import org.springframework.http.HttpStatus;
@@ -26,15 +28,18 @@ public class TimetableService {
 
     private final TimetableRepository timetableRepository;
     private final LectureRepository lectureRepository;
+    private final TimetableLectureRepository timetableLectureRepository;
     private final EntityManager entityManager;
 
     public TimetableService(
             TimetableRepository timetableRepository,
             LectureRepository lectureRepository,
+            TimetableLectureRepository timetableLectureRepository,
             EntityManager entityManager
     ) {
         this.timetableRepository = timetableRepository;
         this.lectureRepository = lectureRepository;
+        this.timetableLectureRepository = timetableLectureRepository;
         this.entityManager = entityManager;
     }
 
@@ -54,9 +59,12 @@ public class TimetableService {
                 request.semester()
         );
 
-        lectures.forEach(timetable::addLecture);
-
         Timetable savedTimetable = timetableRepository.save(timetable);
+        List<TimetableLecture> timetableLectures = lectures.stream()
+                .map(lecture -> TimetableLecture.of(savedTimetable, lecture))
+                .toList();
+        timetableLectureRepository.saveAll(timetableLectures);
+
         return new TimetableCreateResponse(savedTimetable.getTimetableId(), "시간표가 저장되었습니다.");
     }
 

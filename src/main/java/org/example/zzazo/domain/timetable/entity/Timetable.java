@@ -1,6 +1,5 @@
 package org.example.zzazo.domain.timetable.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -10,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import org.example.zzazo.domain.user.entity.User;
 import org.example.zzazo.global.common.Week;
@@ -18,7 +16,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -56,9 +53,6 @@ public class Timetable {
     @Column(name = "semester", nullable = false)
     private int semester;
 
-    @OneToMany(mappedBy = "timetable", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TimetableLecture> timetableLectures = new ArrayList<>();
-
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -95,10 +89,5 @@ public class Timetable {
 
     public Long getTimetableId() {
         return timetableId;
-    }
-
-    public void addLecture(Lecture lecture) {
-        TimetableLecture timetableLecture = TimetableLecture.of(this, lecture);
-        timetableLectures.add(timetableLecture);
     }
 }
