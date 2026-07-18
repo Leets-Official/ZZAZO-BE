@@ -2,10 +2,15 @@ package org.example.zzazo.domain.timetable.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import org.example.zzazo.domain.lecture.domain.LectureClassification;
+import org.example.zzazo.domain.lecture.domain.LiberalCategory;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,6 +18,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "lecture")
+@Getter
 public class Lecture {
 
     @Id
@@ -26,11 +32,13 @@ public class Lecture {
     @Column(name = "credit", nullable = false)
     private int credit;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "course_classification", nullable = false, length = 50)
-    private String courseClassification;
+    private LectureClassification courseClassification;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "liberal_category", length = 50)
-    private String liberalCategory;
+    private LiberalCategory liberalCategory;
 
     @Column(name = "lecture_year", nullable = false)
     private int lectureYear;
@@ -58,17 +66,14 @@ public class Lecture {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
     protected Lecture() {
     }
 
     public Lecture(
             String lectureName,
             int credit,
-            String courseClassification,
-            String liberalCategory,
+            LectureClassification courseClassification,
+            LiberalCategory liberalCategory,
             int lectureYear,
             int semester,
             int grade,
@@ -86,9 +91,5 @@ public class Lecture {
         this.classroom = classroom;
         this.professor = professor;
         this.courseCode = courseCode;
-    }
-
-    public Long getLectureId() {
-        return lectureId;
     }
 }
