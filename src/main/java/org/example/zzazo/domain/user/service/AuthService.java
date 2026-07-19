@@ -40,6 +40,9 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final SecureRandom secureRandom = new SecureRandom();
 
+    @Value("${mail.fixed-auth-code:}")
+    private String fixedAuthCode;
+
     @Value("${app.email-verification.expiration-minutes}")
     private long expirationMinutes;
 
@@ -49,13 +52,24 @@ public class AuthService {
     // 이메일 인증번호 발송
     @Transactional
     public void sendEmailVerification(String email) {
+
+
         validateSchoolEmail(email);
 
         if (userRepository.existsByEmail(email)) {
             throw new CustomException(AuthErrorCode.EMAIL_ALREADY_REGISTERED);
         }
 
-        String verificationCode = generateVerificationCode();
+        String verificationCode;
+
+        // 개발 환경일 때 고정 값
+        if (!fixedAuthCode.isBlank()) {
+            verificationCode = fixedAuthCode;
+        } else {
+            verificationCode = generateVerificationCode();
+        }
+
+
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(expirationMinutes);
 
         EmailVerification emailVerification = emailVerificationRepository.findByEmail(email)
@@ -74,6 +88,8 @@ public class AuthService {
     // 이메일 인증번호 확인
     @Transactional
     public void verifyEmailCode(String email, String verificationCode) {
+
+
         EmailVerification emailVerification = emailVerificationRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(AuthErrorCode.EMAIL_VERIFICATION_NOT_FOUND));
 
