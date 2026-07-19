@@ -86,6 +86,42 @@ CREATE TABLE IF NOT EXISTS users (
     );
 
 
+    CREATE TABLE IF NOT EXISTS timetable (
+                                         timetable_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                         user_id BIGINT NOT NULL,
+                                         candidate_name VARCHAR(50) NOT NULL,
+    department_id BIGINT NOT NULL,
+    preferred_free_days VARCHAR(50) NULL,       -- WeekListConverter가 변환한 문자열 저장
+    total_credits INT NOT NULL,
+    target_credits INT NOT NULL,
+    grade INT NOT NULL,
+    semester INT NOT NULL,
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    deleted_at DATETIME(6) NULL,
+
+    -- 외래키 제약조건 (유저 및 학과 참조)
+    CONSTRAINT fk_timetable_user
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_timetable_department
+    FOREIGN KEY (department_id) REFERENCES department(department_id)
+    );
+
+-- 시간표-강의 매핑 (다대다 해소용 연관 테이블)
+CREATE TABLE IF NOT EXISTS timetable_lecture (
+                                                 timetable_lecture_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                                 timetable_id BIGINT NOT NULL,
+                                                 lecture_id BIGINT NOT NULL,
+                                                 created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    deleted_at DATETIME(6) NULL,
+
+    -- 외래키 제약조건 (시간표 및 강의 참조)
+    CONSTRAINT fk_tl_timetable
+    FOREIGN KEY (timetable_id) REFERENCES timetable(timetable_id) ON DELETE CASCADE,
+    CONSTRAINT fk_tl_lecture
+    FOREIGN KEY (lecture_id) REFERENCES lecture(lecture_id) ON DELETE CASCADE
+    );
 
 
 -- ============================================
@@ -1220,3 +1256,172 @@ VALUES (
 
 
 
+-- ============================================
+-- 1. Lecture Group 추가 (괄호 수식어 제거 기준 병합)
+-- ============================================
+INSERT INTO lecture_group (lecture_group_id, lecture_group_name)
+VALUES
+    (36, 'C언어');
+
+-- ============================================
+-- 2. Lecture 추가 (컴퓨터공학과 1학년 2학기 전공필수, 총 6개 분반)
+-- ============================================
+INSERT INTO lecture
+(
+    lecture_id, lecture_name, credit, course_classification, liberal_category,
+    semester, lecture_year, grade, classroom, professor, course_code, lecture_group_id
+)
+VALUES
+    (80157, 'C언어', 3, 'MAJOR_REQUIREMENT', null, 2, 2026, 1, 'AI관-302', '오기욱', '13978001', 36),
+    (80158, 'C언어', 3, 'MAJOR_REQUIREMENT', null, 2, 2026, 1, 'AI관-415', '오기욱', '13978002', 36),
+    (80159, 'C언어', 3, 'MAJOR_REQUIREMENT', null, 2, 2026, 1, 'AI관-306', '오상엽', '13978003', 36),
+    (80160, 'C언어 (실시간화상강의)', 3, 'MAJOR_REQUIREMENT', null, 2, 2026, 1, '화상강의강의실(가상)', '조진수', '13978004', 36),
+    (80161, 'C언어 (실시간화상강의)', 3, 'MAJOR_REQUIREMENT', null, 2, 2026, 1, '화상강의강의실(가상)', '조진수', '13978005', 36),
+    (80162, 'C언어 (실시간화상강의)', 3, 'MAJOR_REQUIREMENT', null, 2, 2026, 1, '화상강의강의실(가상)', '김창복', '13978006', 36);
+
+-- ============================================
+-- 3. Lecture Schedule 추가 (교시 -> 표준 시간 변환)
+-- ============================================
+INSERT INTO lecture_schedule (lecture_schedule_id, lecture_id, day_of_week, start_time, end_time)
+VALUES
+    (200158, 80157, 'MON', '12:00:00', '13:00:00'), -- 월4,화4~화5
+    (200159, 80157, 'TUE', '12:00:00', '14:00:00'), -- 월4,화4~화5
+    (200160, 80158, 'THU', '16:00:00', '17:00:00'), -- 목8,금7~금8
+    (200161, 80158, 'FRI', '15:00:00', '17:00:00'), -- 목8,금7~금8
+    (200162, 80159, 'MON', '11:00:00', '12:00:00'), -- 월3,화2~화3
+    (200163, 80159, 'TUE', '10:00:00', '12:00:00'), -- 월3,화2~화3
+    (200164, 80160, 'MON', '12:00:00', '14:00:00'), -- 월4~월5,수1
+    (200165, 80160, 'WED', '09:00:00', '10:00:00'), -- 월4~월5,수1
+    (200166, 80161, 'TUE', '13:00:00', '15:00:00'), -- 화5~화6,수4
+    (200167, 80161, 'WED', '12:00:00', '13:00:00'), -- 화5~화6,수4
+    (200168, 80162, 'TUE', '16:00:00', '17:00:00'), -- 화8,수5~수6
+    (200169, 80162, 'WED', '13:00:00', '15:00:00'); -- 화8,수5~수6
+
+-- ============================================
+-- 4. Curriculum 추가 (컴퓨터공학과=2, 1학년 2학기 전공필수)
+-- ============================================
+INSERT INTO curriculum (curriculum_id, lecture_id, department_id, grade, requirement)
+VALUES
+    (1203, 80157, 2, 1, true),
+    (1204, 80158, 2, 1, true),
+    (1205, 80159, 2, 1, true),
+    (1206, 80160, 2, 1, true),
+    (1207, 80161, 2, 1, true),
+    (1208, 80162, 2, 1, true);
+
+
+-- ============================================
+-- 1. Lecture Group 추가
+-- ============================================
+INSERT INTO lecture_group (lecture_group_id, lecture_group_name)
+VALUES
+    (37, '이산수학');
+
+-- ============================================
+-- 2. Lecture 추가 (컴퓨터공학과 전공선택, 총 8개 분반)
+-- 학년(grade)은 명시 안 되어 C언어와 동일하게 1학년으로 가정
+-- ============================================
+INSERT INTO lecture
+(
+    lecture_id, lecture_name, credit, course_classification, liberal_category,
+    semester, lecture_year, grade, classroom, professor, course_code, lecture_group_id
+)
+VALUES
+    (80163, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-305', '엄인옥', '15080001', 37),
+    (80164, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-508', '윤유림', '09392001', 37),
+    (80165, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-508', '윤유림', '09392002', 37),
+    (80166, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-307', '김승태', '09392003', 37),
+    (80167, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-415', '이경복', '09392004', 37),
+    (80168, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-510', '정태수', '09392005', 37),
+    (80169, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-306', '황재천', '09392006', 37),
+    (80170, '이산수학', 3, 'MAJOR_ELECTIVE', null, 2, 2026, 1, 'AI관-510', '이경복', '09392007', 37);
+
+-- ============================================
+-- 3. Lecture Schedule 추가 (교시 -> 표준 시간 변환)
+-- ============================================
+INSERT INTO lecture_schedule (lecture_schedule_id, lecture_id, day_of_week, start_time, end_time)
+VALUES
+    (200170, 80163, 'FRI', '12:00:00', '15:00:00'), -- 금4~금6
+    (200171, 80164, 'WED', '13:00:00', '15:00:00'), -- 수5~수6,금5
+    (200172, 80164, 'FRI', '13:00:00', '14:00:00'), -- 수5~수6,금5
+    (200173, 80165, 'WED', '15:00:00', '16:00:00'), -- 수7,금6~금7
+    (200174, 80165, 'FRI', '14:00:00', '16:00:00'), -- 수7,금6~금7
+    (200175, 80166, 'THU', '15:00:00', '18:00:00'), -- 목7~목9
+    (200176, 80167, 'MON', '12:00:00', '15:00:00'), -- 월4~월6
+    (200177, 80168, 'THU', '09:00:00', '12:00:00'), -- 목1~목3
+    (200178, 80169, 'THU', '15:00:00', '18:00:00'), -- 목7~목9
+    (200179, 80170, 'MON', '09:00:00', '12:00:00'); -- 월1~월3
+
+-- ============================================
+-- 4. Curriculum 추가 (컴퓨터공학과=2, 전공선택이므로 requirement=false)
+-- ============================================
+INSERT INTO curriculum (curriculum_id, lecture_id, department_id, grade, requirement)
+VALUES
+    (1209, 80163, 2, 1, false),
+    (1210, 80164, 2, 1, false),
+    (1211, 80165, 2, 1, false),
+    (1212, 80166, 2, 1, false),
+    (1213, 80167, 2, 1, false),
+    (1214, 80168, 2, 1, false),
+    (1215, 80169, 2, 1, false),
+    (1216, 80170, 2, 1, false);
+
+
+
+
+-- ============================================
+-- 1. Lecture Group 추가
+-- ============================================
+INSERT INTO lecture_group (lecture_group_id, lecture_group_name)
+VALUES
+    (38, 'AI와 글쓰기');
+
+-- ============================================
+-- 2. Lecture 추가 (컴퓨터공학과 교양필수, 총 7개 분반)
+-- liberal_category는 명시 없어 글쓰기 과목 특성상 COMMUNICATION으로 가정 (AI_BASIC이 맞다면 수정 필요)
+-- 학년(grade)도 명시 없어 다른 교필 과목과 동일하게 1학년으로 가정
+-- ============================================
+INSERT INTO lecture
+(
+    lecture_id, lecture_name, credit, course_classification, liberal_category,
+    semester, lecture_year, grade, classroom, professor, course_code, lecture_group_id
+)
+VALUES
+    (80171, 'AI와 글쓰기', 2, 'LIBERAL_REQUIREMENT', 'COMMUNICATION', 2, 2026, 1, '비전타워-303', '김기복', '15979016', 38),
+    (80172, 'AI와 글쓰기', 2, 'LIBERAL_REQUIREMENT', 'COMMUNICATION', 2, 2026, 1, '비전타워-503', '이현승', '15979040', 38),
+    (80173, 'AI와 글쓰기', 2, 'LIBERAL_REQUIREMENT', 'COMMUNICATION', 2, 2026, 1, '비전타워-306', '이상숙', '15979041', 38),
+    (80174, 'AI와 글쓰기', 2, 'LIBERAL_REQUIREMENT', 'COMMUNICATION', 2, 2026, 1, '비전타워-402', '최성실', '15979042', 38),
+    (80175, 'AI와 글쓰기', 2, 'LIBERAL_REQUIREMENT', 'COMMUNICATION', 2, 2026, 1, '비전타워-307', '김기복', '15979043', 38),
+    (80176, 'AI와 글쓰기', 2, 'LIBERAL_REQUIREMENT', 'COMMUNICATION', 2, 2026, 1, '비전타워-418', '성정희', '15979044', 38),
+    (80177, 'AI와 글쓰기', 2, 'LIBERAL_REQUIREMENT', 'COMMUNICATION', 2, 2026, 1, '비전타워-308', '권민자', '15979045', 38);
+
+-- ============================================
+-- 3. Lecture Schedule 추가 (교시 -> 표준 시간 변환)
+-- ============================================
+INSERT INTO lecture_schedule (lecture_schedule_id, lecture_id, day_of_week, start_time, end_time)
+VALUES
+    (200180, 80171, 'TUE', '11:00:00', '13:00:00'), -- 화3~화4
+    (200181, 80172, 'TUE', '11:00:00', '13:00:00'), -- 화3~화4
+    (200182, 80173, 'TUE', '11:00:00', '13:00:00'), -- 화3~화4
+    (200183, 80174, 'TUE', '11:00:00', '13:00:00'), -- 화3~화4
+    (200184, 80175, 'MON', '15:00:00', '17:00:00'), -- 월7~월8
+    (200185, 80176, 'MON', '15:00:00', '17:00:00'), -- 월7~월8
+    (200186, 80177, 'MON', '15:00:00', '17:00:00'); -- 월7~월8
+
+-- ============================================
+-- 4. Curriculum 추가 (컴퓨터공학과=2, 교양필수이므로 requirement=true)
+-- ============================================
+INSERT INTO curriculum (curriculum_id, lecture_id, department_id, grade, requirement)
+VALUES
+    (1217, 80171, 2, 1, true),
+    (1218, 80172, 2, 1, true),
+    (1219, 80173, 2, 1, true),
+    (1220, 80174, 2, 1, true),
+    (1221, 80175, 2, 1, true),
+    (1222, 80176, 2, 1, true),
+    (1223, 80177, 2, 1, true);
+
+INSERT INTO curriculum (curriculum_id, lecture_id, department_id, grade, requirement)
+VALUES
+    (1224, 80010, 2, 1, true),
+    (1225, 80016, 2, 1, true);

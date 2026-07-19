@@ -1,26 +1,26 @@
-package org.example.zzazo.domain.timetable.service;
+    package org.example.zzazo.domain.timetable.service;
 
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.example.zzazo.domain.timetable.dto.TimetableCreateRequest;
-import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
-import org.example.zzazo.domain.timetable.entity.Lecture;
-import org.example.zzazo.domain.timetable.entity.Timetable;
-import org.example.zzazo.domain.timetable.entity.TimetableLecture;
-import org.example.zzazo.domain.timetable.repository.LectureRepository;
-import org.example.zzazo.domain.timetable.repository.TimetableLectureRepository;
-import org.example.zzazo.domain.timetable.repository.TimetableRepository;
-import org.example.zzazo.domain.user.entity.User;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+    import jakarta.persistence.EntityManager;
+    import lombok.RequiredArgsConstructor;
+    import org.example.zzazo.domain.lecture.entity.Lecture;
+    import org.example.zzazo.domain.lecture.repository.LectureRepository;
+    import org.example.zzazo.domain.timetable.dto.TimetableCreateRequest;
+    import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
+    import org.example.zzazo.domain.timetable.entity.Timetable;
+    import org.example.zzazo.domain.timetable.entity.TimetableLecture;
+    import org.example.zzazo.domain.timetable.exception.TimetableErrorCode;
+    import org.example.zzazo.domain.timetable.repository.TimetableLectureRepository;
+    import org.example.zzazo.domain.timetable.repository.TimetableRepository;
+    import org.example.zzazo.domain.user.entity.User;
+    import org.example.zzazo.global.error.CustomException;
+    import org.springframework.security.core.Authentication;
+    import org.springframework.security.core.context.SecurityContextHolder;
+    import org.springframework.stereotype.Service;
+    import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+    import java.util.LinkedHashSet;
+    import java.util.List;
+    import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +66,7 @@ public class TimetableService {
         Set<Long> lectureIds = new LinkedHashSet<>(selectedLectureIds);
         List<Lecture> lectures = lectureRepository.findAllById(lectureIds);
         if (lectures.size() != lectureIds.size()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "강의를 찾을 수 없습니다.");
+            throw new CustomException(TimetableErrorCode.LECTURE_NOT_FOUND);
         }
 
         return lectures;

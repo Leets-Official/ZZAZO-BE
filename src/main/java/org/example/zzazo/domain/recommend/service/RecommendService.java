@@ -64,7 +64,7 @@ public class RecommendService {
             throw new CustomException(RecommendErrorCode.RECOMMEND_NOT_EXISTS);
         }
 
-        return RecommendResponse.RecommendResult.of(completedTimeTable, request.preferredFreeDays());
+        return RecommendResponse.RecommendResult.of(completedTimeTable, request.departmentId(),request.preferredFreeDays());
     }
 
     private RecommendStrategy findStrategy(Priority priority) {

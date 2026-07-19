@@ -20,15 +20,21 @@ public class RecommendResponse {
             @Schema(description = "추천 시간표의 총 학점", example = "18")
             int totalCredits,
 
+            @Schema(description = "추천 조건으로 입력한 학과 ID", examples = "1")
+            Long departmentId,
+
             @Schema(description = "희망 하는 공강 요일", example = "[\"FRI\"]")
             List<Week> preferredFreeDays,
 
             @Schema(description = "추천 시간표의 강의 목록")
             List<Lecture> timetables
     ) {
-        public static RecommendResult of(SelectedTimetable selectedTimetable, List<Week> preferredFreeDays) {
+        public static RecommendResult of(SelectedTimetable selectedTimetable,
+                                         Long departmentId,
+                                         List<Week> preferredFreeDays) {
             return new RecommendResult(
                     selectedTimetable.getTotalCredit(),
+                    departmentId,
                     Optional.ofNullable(preferredFreeDays).orElseGet(Collections::emptyList), // Null-Safety 방어
                     selectedTimetable.getLectures().stream()
                             .map(Lecture::from)
