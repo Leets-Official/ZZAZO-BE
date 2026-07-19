@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.zzazo.domain.lecture.domain.LectureClassification;
 import org.example.zzazo.domain.lecture.domain.LiberalCategory;
+import org.example.zzazo.domain.lecturegroup.entity.LectureGroup;
 import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 
 import java.util.ArrayList;
@@ -53,8 +54,22 @@ public class Lecture {
     private String courseCode;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_group_id",nullable = false)
+    private LectureGroup lectureGroup;
+
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LectureSchedule> lectureSchedules = new ArrayList<>();
 
 
+    public boolean isOverlapWith(Lecture other) {
+        for (LectureSchedule mySchedule : this.lectureSchedules) {
+            for (LectureSchedule otherSchedule : other.getLectureSchedules()) {
+                if (mySchedule.isOverlap(otherSchedule)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
