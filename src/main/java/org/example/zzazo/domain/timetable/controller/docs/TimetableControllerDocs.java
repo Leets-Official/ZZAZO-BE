@@ -86,7 +86,8 @@ public interface TimetableControllerDocs {
                                     "candidateName": "공강 조건 중심 시간표",
                                     "departmentId": 1,
                                     "totalCredits": 20,
-                                    "preferredFreeDays": ["FRI", "WED"]
+                                    "preferredFreeDays": ["FRI", "WED"],
+                                    "createdAt": "2026-07-20T12:00:00"
                                   }
                                 ]
                               }

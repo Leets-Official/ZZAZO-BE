@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.zzazo.domain.timetable.entity.Timetable;
 import org.example.zzazo.global.common.Week;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Schema(description = "저장한 시간표 목록 응답")
@@ -38,7 +39,10 @@ public record TimetableListResponse(
             int totalCredits,
 
             @ArraySchema(schema = @Schema(description = "희망 공강 요일", example = "FRI"))
-            List<Week> preferredFreeDays
+            List<Week> preferredFreeDays,
+
+            @Schema(description = "저장 일시", example = "2026-07-20T12:00:00")
+            LocalDateTime createdAt
     ) {
 
         public static TimetableSummaryResponse from(Timetable timetable) {
@@ -47,7 +51,8 @@ public record TimetableListResponse(
                     timetable.getCandidateName(),
                     timetable.getDepartmentId(),
                     timetable.getTotalCredits(),
-                    timetable.getPreferredFreeDays()
+                    timetable.getPreferredFreeDays(),
+                    timetable.getCreatedAt()
             );
         }
 
@@ -57,7 +62,8 @@ public record TimetableListResponse(
                     "공강 조건 중심 시간표",
                     1L,
                     20,
-                    List.of(Week.FRI, Week.WED)
+                    List.of(Week.FRI, Week.WED),
+                    LocalDateTime.of(2026, 7, 20, 12, 0)
             );
         }
     }
