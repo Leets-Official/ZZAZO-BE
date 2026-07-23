@@ -1,0 +1,57 @@
+#spring:
+#  application:
+#    name: ZZAZO
+#
+#
+#  datasource:
+#    # MySQL 8.0 이상 버전에서 사용하는 공식 드라이버 클래스 이름이야.
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#    # 도커로 로컬(3306 포트)에 띄웠고 DB 이름은 test_db 이니 이렇게 맞춰줘.
+#    url: jdbc:mysql://localhost:3307/test_db?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+#
+#    # 도커 컴포즈 파일에 적어둔 일반 사용자 계정 정보야. root로 붙는 것보다 이게 더 실무적이지.
+#    username: testuser
+#    password: testpassword
+#
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQLDialect
+#    hibernate:
+#      # 💡 시니어의 중요 팁:
+#      # 우리는 이미 도커가 뜰 때 init.sql을 통해 테이블을 직접 생성했잖아?
+#      # 그러니까 여기서는 'validate'를 쓰는 게 맞아. 엔티티와 실제 DB 테이블이 잘 매핑되었는지만 검증하는 옵션이야.
+#      # 만약 'create'나 'update'를 쓰면 하이버네이트가 멋대로 테이블을 건드릴 수 있어서 위험해.
+#      ddl-auto: create-drop
+#
+#    # 콘솔 창에서 쿼리가 날아가는 걸 보기 위한 필수 설정들
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true  # SQL을 한 줄로 보지 않고 보기 좋게 정렬(Pretty Print)해줘.
+#        use_sql_comments: true #
+#
+#
+#    defer-datasource-initialization: true
+#
+#  sql:
+#    init:
+#      mode: always
+#
+#
+##  datasource:
+##    url: jdbc:h2:mem:zzazo
+##    driver-class-name: org.h2.Driver
+##    username: sa
+##    password:
+##
+##  h2:
+##    console:
+##      enabled: true
+##
+##  jpa:
+##    database-platform: org.hibernate.dialect.H2Dialect
+##    hibernate:
+##      ddl-auto: create-drop
+##    show-sql: true
+#
+#
