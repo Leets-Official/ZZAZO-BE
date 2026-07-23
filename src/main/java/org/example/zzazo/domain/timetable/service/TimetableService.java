@@ -6,9 +6,11 @@ import org.example.zzazo.domain.lecture.entity.Lecture;
 import org.example.zzazo.domain.lecture.repository.LectureRepository;
 import org.example.zzazo.domain.timetable.dto.TimetableCreateRequest;
 import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
+import org.example.zzazo.domain.timetable.dto.TimetableDetailResponse;
 import org.example.zzazo.domain.timetable.dto.TimetableListResponse;
 import org.example.zzazo.domain.timetable.entity.Timetable;
 import org.example.zzazo.domain.timetable.entity.TimetableLecture;
+import org.example.zzazo.domain.timetable.exception.TimetableErrorCode;
 import org.example.zzazo.domain.timetable.repository.TimetableLectureRepository;
 import org.example.zzazo.domain.timetable.repository.TimetableRepository;
 import org.example.zzazo.domain.user.entity.User;
@@ -67,6 +69,27 @@ public class TimetableService {
         );
 
         return TimetableListResponse.from(timetables);
+    }
+
+    @Transactional(readOnly = true)
+    public TimetableDetailResponse getTimetable(Long timetableId) {
+        Timetable timetable = timetableRepository.findByTimetableIdAndDeletedAtIsNull(timetableId)
+                .orElseThrow(() -> new CustomException(TimetableErrorCode.TIMETABLE_NOT_FOUND));
+        validateTimetableOwner(timetable);
+
+        List<Lecture> lectures = timetableLectureRepository
+                .findAllWithLectureAndSchedulesByTimetableId(timetableId)
+                .stream()
+                .map(TimetableLecture::getLecture)
+                .toList();
+
+        return TimetableDetailResponse.from(timetable, lectures);
+    }
+
+    private void validateTimetableOwner(Timetable timetable) {
+        if (!timetable.getUser().getUserId().equals(getCurrentUserId())) {
+            throw new CustomException(TimetableErrorCode.TIMETABLE_ACCESS_DENIED);
+        }
     }
 
     private List<Lecture> findSelectedLectures(List<Long> selectedLectureIds) {
