@@ -2,6 +2,8 @@ package org.example.zzazo.domain.timetable.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.zzazo.domain.lecture.entity.Lecture;
+import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 import org.example.zzazo.global.common.Week;
 
 import java.time.LocalTime;
@@ -29,8 +31,9 @@ public record TimetableCourseResponse(
 
         @Schema(description = "강의실", example = "가천관 000호")
         String classroom,
+
         @Schema(description = "강의시간")
-        List<LectureTime>lectureTime
+        List<LectureTime> lectureTime
 ) {
     public record LectureTime(
             @Schema(description = "시작 시간", example = "09:00")
@@ -45,6 +48,29 @@ public record TimetableCourseResponse(
             Week dayOfWeek
     ) {
 
+    }
+
+    public static TimetableCourseResponse from(Lecture lecture) {
+        return new TimetableCourseResponse(
+                lecture.getId(),
+                lecture.getName(),
+                null,
+                lecture.getProfessor(),
+                lecture.getCredit(),
+                lecture.getLectureClassification().getValue(),
+                lecture.getClassroom(),
+                lecture.getLectureSchedules().stream()
+                        .map(TimetableCourseResponse::from)
+                        .toList()
+        );
+    }
+
+    private static LectureTime from(LectureSchedule lectureSchedule) {
+        return new LectureTime(
+                lectureSchedule.getStartTime(),
+                lectureSchedule.getEndTime(),
+                lectureSchedule.getDayOfWeek()
+        );
     }
 
     public static TimetableCourseResponse example() {
