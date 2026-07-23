@@ -162,6 +162,18 @@ public interface RecommendControllerDocs {
                             }
                     )
             ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "인증되지 않은 사용자의 요청",
+                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """))
+            ),
 
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "404",
