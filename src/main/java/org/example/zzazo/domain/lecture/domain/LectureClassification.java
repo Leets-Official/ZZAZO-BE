@@ -1,7 +1,9 @@
 package org.example.zzazo.domain.lecture.domain;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum LectureClassification {
     MAJOR_REQUIREMENT("전공필수"),
