@@ -1,6 +1,8 @@
 package org.example.zzazo.global.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.zzazo.global.error.CustomAccessDeniedHandler;
+import org.example.zzazo.global.error.CustomAuthenticationEntryPoint;
 import org.example.zzazo.global.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +26,8 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     // Security 필터 체인 설정
     @Bean
@@ -40,14 +44,14 @@ public class SecurityConfig {
                                 "/v3/api-docs.yaml",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/api/health",
-                                "/api/auth/**",
-                                //테스트용 접근 권한 허용 -> Auth 로직 구현 완료시 삭제
-                                "/api/**",
                                 "/api/v1/health",
                                 "/api/v1/auth/**"
                         ).permitAll()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

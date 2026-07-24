@@ -61,7 +61,21 @@ public interface TimetableControllerDocs {
             )
     )
     @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content)
-    @ApiResponse(responseCode = "401", description = "인증 필요", content = @Content)
+    @ApiResponse(
+            responseCode = "401",
+            description = "인증 필요",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """)
+            )
+    )
     ResponseEntity<org.example.zzazo.global.common.ApiResponse<TimetableCreateResponse>> createTimetable(TimetableCreateRequest request);
 
     @Operation(
@@ -95,7 +109,21 @@ public interface TimetableControllerDocs {
                             """)
             )
     )
-    @ApiResponse(responseCode = "401", description = "인증 필요", content = @Content)
+    @ApiResponse(
+            responseCode = "401",
+            description = "인증 필요",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """)
+            )
+    )
     org.example.zzazo.global.common.ApiResponse<TimetableListResponse> getTimetables();
 
     @Operation(
@@ -157,7 +185,21 @@ public interface TimetableControllerDocs {
                             """)
             )
     )
-    @ApiResponse(responseCode = "401", description = "인증 필요", content = @Content)
+    @ApiResponse(
+            responseCode = "401",
+            description = "인증 필요",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """)
+            )
+    )
     @ApiResponse(responseCode = "403", description = "다른 사용자의 시간표 접근", content = @Content)
     @ApiResponse(responseCode = "404", description = "시간표 없음", content = @Content)
     org.example.zzazo.global.common.ApiResponse<TimetableDetailResponse> getTimetable(
@@ -170,7 +212,21 @@ public interface TimetableControllerDocs {
             description = "로그인한 사용자가 저장한 시간표를 삭제합니다."
     )
     @ApiResponse(responseCode = "204", description = "시간표 삭제 성공", content = @Content)
-    @ApiResponse(responseCode = "401", description = "인증 필요", content = @Content)
+    @ApiResponse(
+            responseCode = "401",
+            description = "인증 필요",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """)
+            )
+    )
     @ApiResponse(responseCode = "403", description = "다른 사용자의 시간표 접근", content = @Content)
     @ApiResponse(responseCode = "404", description = "시간표 없음", content = @Content)
     ResponseEntity<Void> deleteTimetable(
