@@ -1,4 +1,18 @@
+server:
+  forward-headers-strategy: framework
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true # 요청과 응답 모두 UTF-8을 강제 적용
+
+
 spring:
+  sql:
+    init:
+      mode: always # data.sql 로컬 테스트용
+
+
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
 
