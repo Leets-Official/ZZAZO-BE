@@ -73,9 +73,7 @@ public class TimetableService {
 
     @Transactional(readOnly = true)
     public TimetableDetailResponse getTimetable(Long timetableId) {
-        Timetable timetable = timetableRepository.findById(timetableId)
-                .orElseThrow(() -> new CustomException(TimetableErrorCode.TIMETABLE_NOT_FOUND));
-        validateTimetableOwner(timetable);
+        Timetable timetable = findTimetableAndValidateOwner(timetableId);
 
         List<Lecture> lectures = timetableLectureRepository
                 .findAllWithLectureAndSchedulesByTimetableId(timetableId)
@@ -84,6 +82,13 @@ public class TimetableService {
                 .toList();
 
         return TimetableDetailResponse.from(timetable, lectures);
+    }
+
+    private Timetable findTimetableAndValidateOwner(Long timetableId) {
+        Timetable timetable = timetableRepository.findById(timetableId)
+                .orElseThrow(() -> new CustomException(TimetableErrorCode.TIMETABLE_NOT_FOUND));
+        validateTimetableOwner(timetable);
+        return timetable;
     }
 
     private void validateTimetableOwner(Timetable timetable) {
