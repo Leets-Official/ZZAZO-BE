@@ -64,7 +64,7 @@ public class TimetableService {
 
     @Transactional(readOnly = true)
     public TimetableListResponse getTimetables() {
-        List<Timetable> timetables = timetableRepository.findAllByUser_UserIdAndDeletedAtIsNullOrderByCreatedAtDesc(
+        List<Timetable> timetables = timetableRepository.findAllByUser_UserIdOrderByCreatedAtDesc(
                 getCurrentUserId()
         );
 
@@ -73,7 +73,7 @@ public class TimetableService {
 
     @Transactional(readOnly = true)
     public TimetableDetailResponse getTimetable(Long timetableId) {
-        Timetable timetable = timetableRepository.findByTimetableIdAndDeletedAtIsNull(timetableId)
+        Timetable timetable = timetableRepository.findById(timetableId)
                 .orElseThrow(() -> new CustomException(TimetableErrorCode.TIMETABLE_NOT_FOUND));
         validateTimetableOwner(timetable);
 

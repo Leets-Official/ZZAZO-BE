@@ -13,7 +13,6 @@ public interface TimetableLectureRepository extends JpaRepository<TimetableLectu
             "join fetch tl.lecture l " +
             "left join fetch l.lectureSchedules " +
             "where tl.timetable.timetableId = :timetableId " +
-            "and tl.deletedAt is null " +
             "order by tl.timetableLectureId")
     List<TimetableLecture> findAllWithLectureAndSchedulesByTimetableId(
             @Param("timetableId") Long timetableId
