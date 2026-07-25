@@ -48,6 +48,13 @@ public record TimetableCourseResponse(
             Week dayOfWeek
     ) {
 
+        public static LectureTime from(LectureSchedule lectureSchedule) {
+            return new LectureTime(
+                    lectureSchedule.getStartTime(),
+                    lectureSchedule.getEndTime(),
+                    lectureSchedule.getDayOfWeek()
+            );
+        }
     }
 
     public static TimetableCourseResponse from(Lecture lecture) {
@@ -60,16 +67,8 @@ public record TimetableCourseResponse(
                 lecture.getLectureClassification().getValue(),
                 lecture.getClassroom(),
                 lecture.getLectureSchedules().stream()
-                        .map(TimetableCourseResponse::from)
+                        .map(LectureTime::from)
                         .toList()
-        );
-    }
-
-    private static LectureTime from(LectureSchedule lectureSchedule) {
-        return new LectureTime(
-                lectureSchedule.getStartTime(),
-                lectureSchedule.getEndTime(),
-                lectureSchedule.getDayOfWeek()
         );
     }
 
