@@ -17,9 +17,6 @@ public record TimetableCourseResponse(
         @Schema(description = "과목명", example = "경영학원론")
         String lectureName,
 
-        @Schema(description = "분반", example = "001")
-        String section,
-
         @Schema(description = "교수명", example = "홍길동")
         String professor,
 
@@ -61,7 +58,6 @@ public record TimetableCourseResponse(
         return new TimetableCourseResponse(
                 lecture.getId(),
                 lecture.getName(),
-                null,
                 lecture.getProfessor(),
                 lecture.getCredit(),
                 lecture.getLectureClassification().getValue(),
@@ -76,7 +72,6 @@ public record TimetableCourseResponse(
         return new TimetableCourseResponse(
                 13L,
                 "경영학원론",
-                "001",
                 "홍길동",
                 3,
                 "전공필수",
