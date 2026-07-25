@@ -37,9 +37,6 @@ public record TimetableDetailResponse(
         @Schema(description = "총 학점", example = "20")
         int totalCredits,
 
-        @Schema(description = "수강기준 점검 결과")
-        RequirementCheckResponse requirementCheck,
-
         @ArraySchema(schema = @Schema(implementation = TimetableCourseResponse.class))
         List<TimetableCourseResponse> courses
 ) {
@@ -55,7 +52,6 @@ public record TimetableDetailResponse(
                 timetable.getTargetCredits(),
                 lectures.stream().map(Lecture::getId).toList(),
                 timetable.getTotalCredits(),
-                RequirementCheckResponse.from(timetable, lectures),
                 lectures.stream().map(TimetableCourseResponse::from).toList()
         );
     }
@@ -71,7 +67,6 @@ public record TimetableDetailResponse(
                 18,
                 List.of(13L, 17L),
                 20,
-                RequirementCheckResponse.example(),
                 List.of(TimetableCourseResponse.example())
         );
     }

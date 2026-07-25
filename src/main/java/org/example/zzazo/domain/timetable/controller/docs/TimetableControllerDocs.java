@@ -123,12 +123,6 @@ public interface TimetableControllerDocs {
                                 "targetCredits": 18,
                                 "selectedLectureIds": [13, 17],
                                 "totalCredits": 20,
-                                "requirementCheck": {
-                                  "targetCreditSatisfied": true,
-                                  "requiredCourseIncluded": true,
-                                  "foundationCourseIncluded": true,
-                                  "generalEducationIncluded": true
-                                },
                                 "courses": [
                                   {
                                     "lectureId": 13,
