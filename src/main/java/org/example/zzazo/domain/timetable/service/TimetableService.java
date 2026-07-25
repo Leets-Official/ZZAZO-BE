@@ -9,6 +9,7 @@ import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
 import org.example.zzazo.domain.timetable.dto.TimetableListResponse;
 import org.example.zzazo.domain.timetable.entity.Timetable;
 import org.example.zzazo.domain.timetable.entity.TimetableLecture;
+import org.example.zzazo.domain.timetable.exception.TimetableErrorCode;
 import org.example.zzazo.domain.timetable.repository.TimetableLectureRepository;
 import org.example.zzazo.domain.timetable.repository.TimetableRepository;
 import org.example.zzazo.domain.user.entity.User;
@@ -67,6 +68,27 @@ public class TimetableService {
         );
 
         return TimetableListResponse.from(timetables);
+    }
+
+    @Transactional
+    public void deleteTimetable(Long timetableId) {
+        Timetable timetable = findTimetableAndValidateOwner(timetableId);
+
+        timetableLectureRepository.deleteAllByTimetableId(timetableId);
+        timetableRepository.delete(timetable);
+    }
+
+    private Timetable findTimetableAndValidateOwner(Long timetableId) {
+        Timetable timetable = timetableRepository.findById(timetableId)
+                .orElseThrow(() -> new CustomException(TimetableErrorCode.TIMETABLE_NOT_FOUND));
+        validateTimetableOwner(timetable);
+        return timetable;
+    }
+
+    private void validateTimetableOwner(Timetable timetable) {
+        if (!timetable.getUser().getUserId().equals(getCurrentUserId())) {
+            throw new CustomException(TimetableErrorCode.TIMETABLE_ACCESS_DENIED);
+        }
     }
 
     private List<Lecture> findSelectedLectures(List<Long> selectedLectureIds) {
