@@ -6,6 +6,7 @@
     import org.example.zzazo.domain.lecture.repository.LectureRepository;
     import org.example.zzazo.domain.timetable.dto.TimetableCreateRequest;
     import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
+    import org.example.zzazo.domain.timetable.dto.TimetableListResponse;
     import org.example.zzazo.domain.timetable.entity.Timetable;
     import org.example.zzazo.domain.timetable.entity.TimetableLecture;
     import org.example.zzazo.domain.timetable.exception.TimetableErrorCode;
@@ -56,6 +57,15 @@ public class TimetableService {
         timetableLectureRepository.saveAll(timetableLectures);
 
         return new TimetableCreateResponse(savedTimetable.getTimetableId(), "시간표가 저장되었습니다.");
+    }
+
+    @Transactional(readOnly = true)
+    public TimetableListResponse getTimetables() {
+        List<Timetable> timetables = timetableRepository.findAllByUser_UserIdAndDeletedAtIsNullOrderByCreatedAtDesc(
+                getCurrentUserId()
+        );
+
+        return TimetableListResponse.from(timetables);
     }
 
     private List<Lecture> findSelectedLectures(List<Long> selectedLectureIds) {

@@ -1,6 +1,7 @@
 package org.example.zzazo.domain.timetable.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.example.zzazo.domain.user.entity.User;
 import org.example.zzazo.global.common.Week;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "timetable")
+@Getter
 public class Timetable {
 
     @Id
@@ -78,7 +80,4 @@ public class Timetable {
         this.semester = semester;
     }
 
-    public Long getTimetableId() {
-        return timetableId;
-    }
 }
