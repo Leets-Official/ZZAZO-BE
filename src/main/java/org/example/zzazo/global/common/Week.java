@@ -1,8 +1,10 @@
 package org.example.zzazo.global.common;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public enum Week {
     MON("월"),
     TUE("화"),
