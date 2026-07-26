@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.zzazo.domain.lecture.domain.LectureClassification;
 import org.example.zzazo.domain.lecture.domain.LiberalCategory;
 import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
+import org.example.zzazo.global.entity.BaseTimeEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity @Table(name = "lecture")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lecture {
+public class Lecture extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lecture_id", nullable = false)
