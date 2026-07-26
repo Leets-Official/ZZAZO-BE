@@ -6,6 +6,7 @@ import org.example.zzazo.domain.lecture.entity.Lecture;
 import org.example.zzazo.domain.lecture.repository.LectureRepository;
 import org.example.zzazo.domain.timetable.dto.TimetableCreateRequest;
 import org.example.zzazo.domain.timetable.dto.TimetableCreateResponse;
+import org.example.zzazo.domain.timetable.dto.TimetableDetailResponse;
 import org.example.zzazo.domain.timetable.dto.TimetableListResponse;
 import org.example.zzazo.domain.timetable.entity.Timetable;
 import org.example.zzazo.domain.timetable.entity.TimetableLecture;
@@ -68,6 +69,19 @@ public class TimetableService {
         );
 
         return TimetableListResponse.from(timetables);
+    }
+
+    @Transactional(readOnly = true)
+    public TimetableDetailResponse getTimetable(Long timetableId) {
+        Timetable timetable = findTimetableAndValidateOwner(timetableId);
+
+        List<Lecture> lectures = timetableLectureRepository
+                .findAllWithLectureAndSchedulesByTimetableId(timetableId)
+                .stream()
+                .map(TimetableLecture::getLecture)
+                .toList();
+
+        return TimetableDetailResponse.from(timetable, lectures);
     }
 
     @Transactional
