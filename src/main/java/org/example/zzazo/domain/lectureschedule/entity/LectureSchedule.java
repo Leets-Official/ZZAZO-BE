@@ -32,4 +32,11 @@ public class LectureSchedule extends BaseTimeEntity {
     @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 
+
+    public boolean isOverlap(LectureSchedule other) {
+        if (!this.dayOfWeek.equals(other.dayOfWeek)) {
+            return false;
+        }
+        return this.startTime.isBefore(other.endTime) && other.startTime.isBefore(this.endTime);
+    }
 }

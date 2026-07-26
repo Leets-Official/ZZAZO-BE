@@ -11,13 +11,7 @@ import org.example.zzazo.global.code.BaseSuccessCode;
 import org.example.zzazo.global.common.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/timetables")
@@ -51,7 +45,8 @@ public class TimetableController implements TimetableControllerDocs {
     public ApiResponse<TimetableDetailResponse> getTimetable(
             @PathVariable Long timetableId
     ) {
-        return ApiResponse.success(BaseSuccessCode.GENERAL_OK, TimetableDetailResponse.example(timetableId));
+        TimetableDetailResponse response = timetableService.getTimetable(timetableId);
+        return ApiResponse.success(BaseSuccessCode.GENERAL_OK, response);
     }
 
     @Override
@@ -59,6 +54,7 @@ public class TimetableController implements TimetableControllerDocs {
     public ResponseEntity<Void> deleteTimetable(
             @PathVariable Long timetableId
     ) {
+        timetableService.deleteTimetable(timetableId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,10 +1,11 @@
 package org.example.zzazo.domain.timetable.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.example.zzazo.domain.lecture.entity.Lecture;
 import org.example.zzazo.global.entity.BaseTimeEntity;
 
-@Entity
+@Entity @Getter
 @Table(name = "timetable_lecture")
 public class TimetableLecture extends BaseTimeEntity {
 
