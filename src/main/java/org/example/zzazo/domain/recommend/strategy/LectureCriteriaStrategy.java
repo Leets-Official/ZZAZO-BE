@@ -40,9 +40,13 @@ public class LectureCriteriaStrategy implements RecommendStrategy {
 
     private Comparator<Curriculum> priorityComparator(int userGrade) {
         return Comparator
+                // 대상 학년 이하 먼저
                 .comparing((Curriculum c) -> c.getGrade() > userGrade)
-                .thenComparing(Curriculum::getGrade)
+                // 필수 먼저
                 .thenComparing(c -> !c.getIsRequired())
+                // 그 안에서 학년순
+                .thenComparing(Curriculum::getGrade)
+                // 마지막 학점
                 .thenComparing(c -> c.getLecture().getCredit());
     }
 }
