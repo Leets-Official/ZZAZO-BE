@@ -51,7 +51,8 @@ public class TimetableController implements TimetableControllerDocs {
     public ApiResponse<TimetableDetailResponse> getTimetable(
             @PathVariable Long timetableId
     ) {
-        return ApiResponse.success(BaseSuccessCode.GENERAL_OK, TimetableDetailResponse.example(timetableId));
+        TimetableDetailResponse response = timetableService.getTimetable(timetableId);
+        return ApiResponse.success(BaseSuccessCode.GENERAL_OK, response);
     }
 
     @Override
@@ -59,6 +60,7 @@ public class TimetableController implements TimetableControllerDocs {
     public ResponseEntity<Void> deleteTimetable(
             @PathVariable Long timetableId
     ) {
+        timetableService.deleteTimetable(timetableId);
         return ResponseEntity.noContent().build();
     }
 }
