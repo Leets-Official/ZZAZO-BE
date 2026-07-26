@@ -2,6 +2,8 @@ package org.example.zzazo.domain.timetable.dto;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.zzazo.domain.lecture.entity.Lecture;
+import org.example.zzazo.domain.timetable.entity.Timetable;
 import org.example.zzazo.global.common.Week;
 
 import java.util.List;
@@ -35,12 +37,24 @@ public record TimetableDetailResponse(
         @Schema(description = "총 학점", example = "20")
         int totalCredits,
 
-        @Schema(description = "수강기준 점검 결과")
-        RequirementCheckResponse requirementCheck,
-
         @ArraySchema(schema = @Schema(implementation = TimetableCourseResponse.class))
         List<TimetableCourseResponse> courses
 ) {
+
+    public static TimetableDetailResponse from(Timetable timetable, List<Lecture> lectures) {
+        return new TimetableDetailResponse(
+                timetable.getTimetableId(),
+                timetable.getCandidateName(),
+                timetable.getDepartmentId(),
+                timetable.getSemester(),
+                timetable.getGrade(),
+                timetable.getPreferredFreeDays(),
+                timetable.getTargetCredits(),
+                lectures.stream().map(Lecture::getId).toList(),
+                timetable.getTotalCredits(),
+                lectures.stream().map(TimetableCourseResponse::from).toList()
+        );
+    }
 
     public static TimetableDetailResponse example(Long timetableId) {
         return new TimetableDetailResponse(
@@ -53,7 +67,6 @@ public record TimetableDetailResponse(
                 18,
                 List.of(13L, 17L),
                 20,
-                RequirementCheckResponse.example(),
                 List.of(TimetableCourseResponse.example())
         );
     }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TimetableRepository extends JpaRepository<Timetable, Long> {
 
-    List<Timetable> findAllByUser_UserIdAndDeletedAtIsNullOrderByCreatedAtDesc(Long userId);
+    List<Timetable> findAllByUser_UserIdOrderByCreatedAtDesc(Long userId);
 }

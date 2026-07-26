@@ -84,7 +84,7 @@ public interface LectureControllerDocs {
                     content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
                             {
                               "isSuccess": false,
-                              "code": "VALIDATION_400_1",
+                              "code": "COMMON_400_2",
                               "message": "입력값이 올바르지 않습니다.",
                               "data": {
                                 "semester": "학기 정보는 필수입니다.",
@@ -179,7 +179,7 @@ public interface LectureControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "400",
                     description = """
-                            [VALIDATION_400_1] \n
+                            [COMMON_400_2] \n
                             사용자가 잘못된 입력값을 입력한다. \n
                             구체적인 케이스는 다음과 같다. \n
                             \n
@@ -187,15 +187,15 @@ public interface LectureControllerDocs {
                             2.학기 범위 오류 (ex. -1 or 3) \n
                             3.교양 분류 정보 미입력 \n
                             \n
-                            [TYPE_MISMATCH_400_1] \n
+                            [COMMON_400_3] \n
                             정의되지 않은 교양 분류 정보 값을 입력한다. \n
                             1.지원하지 않는 타입의 교양 구분 정보 입력
                             """,
                     content = @Content(mediaType = "application/json", examples = {
-                            @ExampleObject(name = "VALIDATION_400_1", value = """
+                            @ExampleObject(name = "COMMON_400_2", value = """
                             {
                               "isSuccess": false,
-                              "code": "VALIDATION_400_1",
+                              "code": "COMMON_400_2",
                               "message": "입력값이 올바르지 않습니다.",
                               "data": {
                                 "semester": "학기 정보는 필수입니다.",
@@ -203,14 +203,13 @@ public interface LectureControllerDocs {
                               }
                             }
                             """),
-                            @ExampleObject(name = "TYPE_MISMATCH_400_1", value = """
+                            @ExampleObject(name = "COMMON_400_3", value = """
                             {
                               "isSuccess": false,
-                              "code": "TYPE_MISMATCH_400_1",
+                              "code": "COMMON_400_3",
                               "message": "허용되지 않은 값입니다.",
                               "data": {
-                                "field": "liberalCategory",
-                                "invalidValue": "ABC"
+                                "liberalCategory": "ABC"
                               }
                             }
                             """)}
