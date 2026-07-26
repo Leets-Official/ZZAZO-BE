@@ -6,7 +6,7 @@ import org.example.zzazo.global.entity.BaseTimeEntity;
 
 @Entity @Table(name = "lecture_group")
 @Getter
-public class LectureGroup {
+public class LectureGroup extends BaseTimeEntity {
 
     @Column(name = "lecture_group_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
