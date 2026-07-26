@@ -19,10 +19,14 @@ public class EmailSenderService {
     @Value("${app.email-verification.subject}")
     private String verificationEmailSubject;
 
+    @Value("${app.email-verification.from}")
+    private String serviceEmail;
+
     // SMTP 발송은 시간이 걸리므로 별도 스레드에서 비동기로 처리한다.
     @Async("mailTaskExecutor")
     public void sendVerificationEmail(String email, String verificationCode) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(serviceEmail);
         message.setTo(email);
         message.setSubject(verificationEmailSubject);
         message.setText("요청하신 인증번호는 [" + verificationCode + "] 입니다. 인증번호는 발급 시점으로부터 일정 시간 동안만 유효합니다.");
