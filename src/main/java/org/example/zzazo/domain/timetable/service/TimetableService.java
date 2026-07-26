@@ -62,7 +62,7 @@ public class TimetableService {
 
     @Transactional(readOnly = true)
     public TimetableListResponse getTimetables() {
-        List<Timetable> timetables = timetableRepository.findAllByUser_UserIdAndDeletedAtIsNullOrderByCreatedAtDesc(
+        List<Timetable> timetables = timetableRepository.findAllByUser_UserIdOrderByCreatedAtDesc(
                 getCurrentUserId()
         );
 
