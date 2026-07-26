@@ -84,6 +84,14 @@ public class TimetableService {
         return TimetableDetailResponse.from(timetable, lectures);
     }
 
+    @Transactional
+    public void deleteTimetable(Long timetableId) {
+        Timetable timetable = findTimetableAndValidateOwner(timetableId);
+
+        timetableLectureRepository.deleteAllByTimetableId(timetableId);
+        timetableRepository.delete(timetable);
+    }
+
     private Timetable findTimetableAndValidateOwner(Long timetableId) {
         Timetable timetable = timetableRepository.findById(timetableId)
                 .orElseThrow(() -> new CustomException(TimetableErrorCode.TIMETABLE_NOT_FOUND));
