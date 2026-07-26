@@ -129,7 +129,7 @@ public interface TimetableControllerDocs {
                                     "lectureName": "경영학원론",
                                     "professor": "홍길동",
                                     "credit": 3,
-                                    "lectureClassification": "전공필수",
+                                    "lectureClassification": "MAJOR_REQUIREMENT",
                                     "classroom": "가천관 000호",
                                     "lectureTime": [
                                       {

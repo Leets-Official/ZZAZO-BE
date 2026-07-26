@@ -2,6 +2,7 @@ package org.example.zzazo.domain.timetable.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.example.zzazo.domain.lecture.domain.LectureClassification;
 import org.example.zzazo.domain.lecture.entity.Lecture;
 import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
 import org.example.zzazo.global.common.Week;
@@ -23,8 +24,8 @@ public record TimetableCourseResponse(
         @Schema(description = "학점", example = "3")
         int credit,
 
-        @Schema(description = "이수구분", example = "전공필수")
-        String lectureClassification,
+        @Schema(description = "이수구분", example = "MAJOR_REQUIREMENT")
+        LectureClassification lectureClassification,
 
         @Schema(description = "강의실", example = "가천관 000호")
         String classroom,
@@ -60,7 +61,7 @@ public record TimetableCourseResponse(
                 lecture.getName(),
                 lecture.getProfessor(),
                 lecture.getCredit(),
-                lecture.getLectureClassification().getValue(),
+                lecture.getLectureClassification(),
                 lecture.getClassroom(),
                 lecture.getLectureSchedules().stream()
                         .map(LectureTime::from)
@@ -74,7 +75,7 @@ public record TimetableCourseResponse(
                 "경영학원론",
                 "홍길동",
                 3,
-                "전공필수",
+                LectureClassification.MAJOR_REQUIREMENT,
                 "가천관 000호",
                 List.of(
                         new LectureTime(LocalTime.of(9, 0), LocalTime.of(10, 15), Week.MON),
