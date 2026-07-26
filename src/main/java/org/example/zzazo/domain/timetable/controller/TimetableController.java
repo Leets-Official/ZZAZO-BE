@@ -59,6 +59,7 @@ public class TimetableController implements TimetableControllerDocs {
     public ResponseEntity<Void> deleteTimetable(
             @PathVariable Long timetableId
     ) {
+        timetableService.deleteTimetable(timetableId);
         return ResponseEntity.noContent().build();
     }
 }
