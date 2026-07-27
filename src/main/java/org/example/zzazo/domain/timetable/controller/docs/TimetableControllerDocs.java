@@ -151,20 +151,13 @@ public interface TimetableControllerDocs {
                                 "targetCredits": 18,
                                 "selectedLectureIds": [13, 17],
                                 "totalCredits": 20,
-                                "requirementCheck": {
-                                  "targetCreditSatisfied": true,
-                                  "requiredCourseIncluded": true,
-                                  "foundationCourseIncluded": true,
-                                  "generalEducationIncluded": true
-                                },
                                 "courses": [
                                   {
                                     "lectureId": 13,
                                     "lectureName": "경영학원론",
-                                    "section": "001",
                                     "professor": "홍길동",
                                     "credit": 3,
-                                    "lectureClassification": "전공필수",
+                                    "lectureClassification": "MAJOR_REQUIREMENT",
                                     "classroom": "가천관 000호",
                                     "lectureTime": [
                                       {

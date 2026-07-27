@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 "/v3/api-docs.yaml",
                                 "/swagger-resources/**",
                                 "/webjars/**",
+                                //테스트용 접근 권한 허용 -> Auth 로직 구현 완료시 삭제
                                 "/api/v1/health",
                                 "/api/v1/auth/**"
                         ).permitAll()
@@ -63,7 +64,12 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // 프론트 로컬 허용
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://dev.zzazo.xyz",
+                "https://zzazo.xyz",
+                "https://www.zzazo.xyz"
+        )); // 프론트 로컬 허용
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 모든 메서드 허용
         config.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
         config.setAllowCredentials(true); // 자격 증명 허용 (쿠키, Authorization 헤더 등)
