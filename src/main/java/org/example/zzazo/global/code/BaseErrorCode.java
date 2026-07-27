@@ -16,9 +16,8 @@ public enum BaseErrorCode implements BaseCode {
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST,"COMMON_400_2","입력값이 올바르지 않습니다."),
     TYPE_MISMATCH_ERROR(HttpStatus.BAD_REQUEST,"COMMON_400_3","허용되지 않은 값입니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON_401_1","인증이 필요합니다."),
-    FORBIDDEN(HttpStatus.FORBIDDEN,"COMMON_403_1","해당 요청에 대한 접근 권한이 없습니다.");
+    FORBIDDEN(HttpStatus.FORBIDDEN,"COMMON_403_1","해당 요청에 대한 접근 권한이 없습니다."),
     HTTP_NOT_READABLE(HttpStatus.BAD_REQUEST,"COMMON_400_4","요청 형식이 잘못되었습니다.");
-
 
     private final HttpStatus status;
     private final String code;
