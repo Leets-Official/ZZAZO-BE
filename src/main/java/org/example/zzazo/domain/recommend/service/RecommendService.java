@@ -60,7 +60,7 @@ public class RecommendService {
         SelectedTimetable completedTimeTable = strategy.generate(curriculums, timeTable, request);
 
         // 목표 학점 달성 검증
-        if (completedTimeTable.getTotalCredit() < request.targetCredits()) {
+        if (completedTimeTable.getTotalCredit() != request.targetCredits()) {
             throw new CustomException(RecommendErrorCode.RECOMMEND_NOT_EXISTS);
         }
 

@@ -69,7 +69,9 @@ public class SecurityConfig {
                 "https://dev.zzazo.xyz",
                 "https://zzazo.xyz",
                 "https://www.zzazo.xyz",
-                "https://zzazo-fe.vercel.app"
+                "https://zzazo-fe.vercel.app",
+                "https://leets.zzazo.xyz",
+                "https://app.zzazo.xyz"
         )); // 프론트 로컬 허용
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 모든 메서드 허용
         config.setAllowedHeaders(List.of("*")); // 모든 헤더 허용

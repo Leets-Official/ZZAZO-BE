@@ -38,7 +38,7 @@ public interface RecommendControllerDocs {
                       "preferredFreeDays": [],
                       "targetCredits": 18,
                       "selectedLectureIds": [13,17],
-                      "priority": "FREE_PERIOD"
+                      "priority": "LECTURE_CRITERIA"
                     }
                     """))
     )
