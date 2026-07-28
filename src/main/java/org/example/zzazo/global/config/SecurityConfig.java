@@ -68,7 +68,8 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "https://dev.zzazo.xyz",
                 "https://zzazo.xyz",
-                "https://www.zzazo.xyz"
+                "https://www.zzazo.xyz",
+                "https://zzazo-fe.vercel.app"
         )); // 프론트 로컬 허용
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // 모든 메서드 허용
         config.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
