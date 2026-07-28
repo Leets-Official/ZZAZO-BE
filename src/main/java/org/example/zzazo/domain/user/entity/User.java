@@ -2,6 +2,7 @@ package org.example.zzazo.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.zzazo.global.entity.BaseTimeEntity;
 
 // 회원 정보 엔티티
 @Entity
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
