@@ -62,4 +62,7 @@ public class SelectedTimetable {
                 .anyMatch(l -> l.isOverlapWith(candidate));
     }
 
+    public void remove(Lecture lecture) {
+        this.lectures.remove(lecture);
+    }
 }

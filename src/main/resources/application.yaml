@@ -66,3 +66,7 @@ jwt:
 logging:
   pattern:
     console: "%d{HH:mm:ss.SSS} [%X{traceId}] %-5level %logger{36} - %msg%n"
+
+
+recommend:
+  timeout: 5000000000

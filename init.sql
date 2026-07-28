@@ -90,7 +90,6 @@ CREATE TABLE IF NOT EXISTS users (
     email_verified BOOLEAN NOT NULL,
     created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
-    deleted_at DATETIME(6) NULL,
     FOREIGN KEY (department_id) REFERENCES department(department_id)
     );
 
@@ -106,7 +105,6 @@ CREATE TABLE IF NOT EXISTS timetable (
     semester INT NOT NULL,
     created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
-    deleted_at DATETIME(6) NULL,
 
     -- 외래키 제약조건 (유저 및 학과 참조)
     CONSTRAINT fk_timetable_user
@@ -122,7 +120,6 @@ CREATE TABLE IF NOT EXISTS timetable_lecture (
                                                  lecture_id BIGINT NOT NULL,
                                                  created_at DATETIME(6) NOT NULL,
     updated_at DATETIME(6) NOT NULL,
-    deleted_at DATETIME(6) NULL,
 
     -- 외래키 제약조건 (시간표 및 강의 참조)
     CONSTRAINT fk_tl_timetable
@@ -1108,29 +1105,7 @@ VALUES
     (1202, 80156, 1, 1, true, NOW(), NOW());
 
 
-INSERT INTO email_verifications (
-    email_verification_id,
-    email,
-    verification_code,
-    expires_at,
-    verified,
-    created_at,
-    updated_at
-)
-VALUES (
-           1,
-           'student@gachon.ac.kr',
-           '111111',
-           DATE_ADD(NOW(), INTERVAL 100000 HOUR),
-           true,
-           NOW(),
-           NOW()
-       )
-    ON DUPLICATE KEY UPDATE
-                         verification_code = '111111',
-                         verified = true,
-                         expires_at = DATE_ADD(NOW(), INTERVAL 100000 HOUR),
-                         updated_at = NOW();
+
 
 INSERT INTO users (
     user_id,
@@ -1141,20 +1116,18 @@ INSERT INTO users (
     grade,
     email_verified,
     created_at,
-    updated_at,
-    deleted_at
+    updated_at
 )
 VALUES (
            1,
            1,
            202612345,
-           'student@gachon.ac.kr',
+           'admin1234',
            '$2a$12$qXfrOTVa6KDsuVUmKhjcq.xZ76MN5Zkd6FW1.mVJlgBCYIgIwQ/42',
            4,
            true,
            NOW(),
-           NOW(),
-           NULL
+           NOW()
        )
     ON DUPLICATE KEY UPDATE
                          password = '$2a$12$qXfrOTVa6KDsuVUmKhjcq.xZ76MN5Zkd6FW1.mVJlgBCYIgIwQ/42',
