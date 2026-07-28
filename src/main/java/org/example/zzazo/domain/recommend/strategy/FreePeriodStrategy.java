@@ -25,7 +25,7 @@ public class FreePeriodStrategy implements RecommendStrategy {
             RecommendRequest.createRecommendRequest request
     ) {
         List<Curriculum> remaining = new ArrayList<>(candidates);
-
+        Collections.shuffle(remaining);
         while (timeTable.getTotalCredit() < request.targetCredits() && !remaining.isEmpty()) {
             Set<Week> usedDays = timeTable.getUsedDays();
 

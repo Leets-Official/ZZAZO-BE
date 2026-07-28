@@ -94,6 +94,18 @@ public interface LectureControllerDocs {
                             """))
             ),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "인증되지 않은 사용자의 요청",
+                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
                     responseCode = "404",
                     description = """
                             사용자가 입력한 학과가 존재하지 않는 케이스입니다.
@@ -209,11 +221,23 @@ public interface LectureControllerDocs {
                               "code": "COMMON_400_3",
                               "message": "허용되지 않은 값입니다.",
                               "data": {
-                                "liberalCategory": "ABC"
+                                "liberalCategory": "'ABC'값은 유효하지 않습니다. (필요 타입: liberalCategory)"
                               }
                             }
                             """)}
                     )
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "인증되지 않은 사용자의 요청",
+                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """))
             )
     })
     ApiResponse<LectureResponse.LectureList> getLiberalList(
@@ -259,7 +283,7 @@ public interface LectureControllerDocs {
                               "code": "COMMON_200_1",
                               "message": "요청 응답 성공",
                               "data": {
-                                "categories": [
+                                "liberalCategoryList": [
                                   {
                                     "code": "COMMUNICATION",
                                     "name": "의사소통"
@@ -274,6 +298,18 @@ public interface LectureControllerDocs {
                                   }
                                 ]
                               }
+                            }
+                            """))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "인증되지 않은 사용자의 요청",
+                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
                             }
                             """))
             )
