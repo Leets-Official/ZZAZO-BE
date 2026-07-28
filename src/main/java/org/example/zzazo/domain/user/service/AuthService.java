@@ -62,13 +62,16 @@ public class AuthService {
 
         String verificationCode;
 
-        // 개발 환경일 때 고정 값
+
+        /* 개발 환경일 때 고정 값
         if (!fixedAuthCode.isBlank()) {
             verificationCode = fixedAuthCode;
         } else {
             verificationCode = generateVerificationCode();
         }
 
+        */
+        verificationCode = generateVerificationCode();
 
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(expirationMinutes);
 
