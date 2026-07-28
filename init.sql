@@ -1122,7 +1122,7 @@ VALUES (
            1,
            1,
            202612345,
-           'student@gachon.ac.kr',
+           'admin1234',
            '$2a$12$qXfrOTVa6KDsuVUmKhjcq.xZ76MN5Zkd6FW1.mVJlgBCYIgIwQ/42',
            4,
            true,
