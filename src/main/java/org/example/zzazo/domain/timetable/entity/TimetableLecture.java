@@ -1,24 +1,13 @@
 package org.example.zzazo.domain.timetable.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.zzazo.domain.lecture.entity.Lecture;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.example.zzazo.global.entity.BaseTimeEntity;
 
-import java.time.LocalDateTime;
-
-@Entity
+@Entity @Getter
 @Table(name = "timetable_lecture")
-public class TimetableLecture {
+public class TimetableLecture extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,16 +20,7 @@ public class TimetableLecture {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id", nullable = false)
-    @Getter
     private Lecture lecture;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 
     protected TimetableLecture() {
     }

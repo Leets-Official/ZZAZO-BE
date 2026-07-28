@@ -6,6 +6,7 @@ import org.example.zzazo.domain.recommend.domain.SelectedTimetable;
 import org.example.zzazo.domain.recommend.dto.RecommendRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class LectureCriteriaStrategy implements RecommendStrategy {
             SelectedTimetable timeTable,
             RecommendRequest.createRecommendRequest request
     ) {
+        Collections.shuffle(candidates);
+
         List<Curriculum> sorted = candidates.stream()
                 .sorted(priorityComparator(request.grade()))
                 .toList();

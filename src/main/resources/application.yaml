@@ -61,3 +61,8 @@ jwt:
   secret: ${JWT_SECRET:zzazo-local-dev-jwt-secret-key-please-change-in-production-0123456789}
   access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:3600000}
   refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:1209600000}
+
+# 로그 포맷 지정
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%X{traceId}] %-5level %logger{36} - %msg%n"

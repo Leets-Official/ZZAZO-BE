@@ -47,6 +47,7 @@ public class SelectedTimetable {
                 .collect(Collectors.toSet());
     }
 
+
     private boolean isExceedMaxCredit(Lecture lecture) {
         return getTotalCredit() + lecture.getCredit() > MAXIMUM_CREDIT;
     }

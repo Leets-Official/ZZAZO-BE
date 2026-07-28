@@ -4,16 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.zzazo.domain.user.entity.User;
 import org.example.zzazo.global.common.Week;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.example.zzazo.global.entity.BaseTimeEntity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "timetable")
 @Getter
-public class Timetable {
+public class Timetable extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,13 +44,6 @@ public class Timetable {
     @Column(name = "semester", nullable = false)
     private int semester;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 
     protected Timetable() {
     }

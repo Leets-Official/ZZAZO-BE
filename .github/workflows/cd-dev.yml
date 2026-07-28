@@ -30,6 +30,12 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/zzazo:latest
 
 
+      - name: 배포 파일 존재 확인 (디버그)
+        run: |
+          pwd
+          ls -la
+          find . -name "docker-compose-dev.yml" -o -name "init.sql"
+
       - name: 배포 파일 서버로 전송 (SCP)
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -37,9 +43,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-          source: |
-            docker-compose-dev.yml
-            init.sql
+          source: "docker-compose-dev.yml,init.sql"
           target: "/home/${{ secrets.SERVER_USER }}/zzazo"
           overwrite: true
 
