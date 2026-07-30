@@ -35,6 +35,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
@@ -46,7 +47,8 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 //테스트용 접근 권한 허용 -> Auth 로직 구현 완료시 삭제
                                 "/api/v1/health",
-                                "/api/v1/auth/**"
+                                "/api/v1/auth/**",
+                                "/h2-console/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
