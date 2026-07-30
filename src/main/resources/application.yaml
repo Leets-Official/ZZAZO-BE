@@ -1,6 +1,7 @@
 server:
   forward-headers-strategy: framework
 
+spring:
   servlet:
     encoding:
       charset: UTF-8

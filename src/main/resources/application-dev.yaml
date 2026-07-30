@@ -10,7 +10,7 @@ spring:
       on-profile: dev
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db:3306/zzazo_db?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://db:3306/mydatabase?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:1234}
