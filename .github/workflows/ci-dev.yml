@@ -23,4 +23,4 @@ jobs:
       - name: Gradle 빌드
         run: |
           chmod +x ./gradlew
-          ./gradlew clean bootJar --no-daemon
+          ./gradlew clean build --no-daemon

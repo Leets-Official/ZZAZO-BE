@@ -7,6 +7,12 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MY_SQL_PASSWORD}
       MYSQL_DATABASE: mydatabase
+    ## cmd 내 한글 인코딩 용 명령어 주입
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+      - --skip-character-set-client-handshake
     restart: always
     volumes:
       - mysql_data:/var/lib/mysql
