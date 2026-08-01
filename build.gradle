@@ -38,10 +38,25 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+test {
+    useJUnitPlatform()
+
+    // CI에서 정확한 에러 원인을 보기 위한 로깅 설정 추가
+    testLogging {
+        events "failed", "standard_error", "standard_out"
+        exceptionFormat "full" // 전체 에러 스택 트레이스 출력
+        showCauses true
+        showExceptions true
+        showStackTraces true
+    }
 }
