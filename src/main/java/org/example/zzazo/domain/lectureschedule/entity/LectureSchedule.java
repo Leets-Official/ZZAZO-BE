@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.zzazo.domain.lecture.entity.Lecture;
 import org.example.zzazo.global.common.Week;
+import org.example.zzazo.global.entity.BaseTimeEntity;
 
 import java.time.LocalTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalTime;
 @Entity @Table(name = "lecture_schedule")
 @Getter
 @NoArgsConstructor
-public class LectureSchedule {
+public class LectureSchedule extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lecture_schedule_id")
     private Long id;
@@ -31,4 +32,11 @@ public class LectureSchedule {
     @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 
+
+    public boolean isOverlap(LectureSchedule other) {
+        if (!this.dayOfWeek.equals(other.dayOfWeek)) {
+            return false;
+        }
+        return this.startTime.isBefore(other.endTime) && other.startTime.isBefore(this.endTime);
+    }
 }

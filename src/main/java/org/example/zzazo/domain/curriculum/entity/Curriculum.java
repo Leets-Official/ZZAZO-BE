@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.zzazo.domain.department.entity.Department;
 import org.example.zzazo.domain.lecture.entity.Lecture;
+import org.example.zzazo.global.entity.BaseTimeEntity;
 
 @Entity @Table(name = "curriculum")
 @Getter
 @NoArgsConstructor
-public class Curriculum {
+public class Curriculum extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "curriculum_id", nullable = false)

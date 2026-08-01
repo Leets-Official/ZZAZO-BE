@@ -40,7 +40,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final SecureRandom secureRandom = new SecureRandom();
 
-    @Value("${mail.fixed-auth-code:}")
+    @Value("${spring.mail.fixed-auth-code:}")
     private String fixedAuthCode;
 
     @Value("${app.email-verification.expiration-minutes}")
@@ -62,13 +62,16 @@ public class AuthService {
 
         String verificationCode;
 
-        // 개발 환경일 때 고정 값
+
+        /* 개발 환경일 때 고정 값
         if (!fixedAuthCode.isBlank()) {
             verificationCode = fixedAuthCode;
         } else {
             verificationCode = generateVerificationCode();
         }
 
+        */
+        verificationCode = generateVerificationCode();
 
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(expirationMinutes);
 

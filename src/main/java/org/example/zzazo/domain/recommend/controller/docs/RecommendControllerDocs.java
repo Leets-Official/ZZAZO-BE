@@ -38,7 +38,7 @@ public interface RecommendControllerDocs {
                       "preferredFreeDays": [],
                       "targetCredits": 18,
                       "selectedLectureIds": [13,17],
-                      "priority": "FREE_PERIOD"
+                      "priority": "LECTURE_CRITERIA"
                     }
                     """))
     )
@@ -56,6 +56,7 @@ public interface RecommendControllerDocs {
                               "message": "요청 응답 성공",
                               "data": {
                                 "totalCredits": 20,
+                                "departmentId": 1,
                                 "preferredFreeDays": ["FRI"],
                                 "timetables": [
                                   {
@@ -109,10 +110,10 @@ public interface RecommendControllerDocs {
                             선택한 강의 목록에 속한 강의들의 시간표가 겹치는 케이스입니다. \n
                             [RECOMMEND_400_4] \n
                             선택한 강의 목록에 속한 강의들의 학점이 30을 초과하는 케이스입니다. \n
-                            [VALIDATION_400_1] \n
+                            [COMMON_400_2] \n
                             사용자가 입력한 값이 유효하지 않은 케이스입니다. \n
-                            
-                            
+                            [COMMON_400_4] \n
+                            RequestBody JSON 형식 또는 데이터 타입이 올바르지 않은 케이스입니다. \n 
                             """,
                     content = @Content(mediaType = "application/json",
                             examples = {
@@ -148,19 +149,41 @@ public interface RecommendControllerDocs {
                                               "data": null
                                             }
                                             """),
-                                    @ExampleObject(name = "VALIDATION_400_1", value = """
+                                    @ExampleObject(name = "COMMON_400_2", value = """
                                             {
                                               "isSuccess": false,
-                                              "code": "VALIDATION_400_1",
+                                              "code": "COMMON_400_2",
                                               "message": "입력값이 올바르지 않습니다.",
                                               "data": {
                                                 "preferredFreeDays": "공강 요일은 최대 2개까지 선택할 수 있습니다.",
                                                 "targetCredits": "목표 학점은 30학점을 초과할 수 없습니다."
                                               }
                                             }
+                                            """),
+                                    @ExampleObject(name = "COMMON_400_4", value = """
+                                            {
+                                              "isSuccess": false,
+                                              "code": "COMMON_400_4",
+                                              "message": "요청 형식이 잘못되었습니다.",
+                                              "data": {
+                                                "priority": "'ABC' 값은 유효하지 않습니다. (필요 타입: priority)"
+                                              }
+                                            }
                                             """)
                             }
                     )
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "인증되지 않은 사용자의 요청",
+                    content = @Content(mediaType = "application/json", examples = @ExampleObject(value = """
+                            {
+                              "isSuccess": false,
+                              "code": "COMMON_401_1",
+                              "message": "인증이 필요합니다.",
+                              "data": null
+                            }
+                            """))
             ),
 
             @io.swagger.v3.oas.annotations.responses.ApiResponse(

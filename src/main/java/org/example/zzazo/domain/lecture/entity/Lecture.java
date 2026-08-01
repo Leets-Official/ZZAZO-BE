@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.zzazo.domain.lecture.domain.LectureClassification;
 import org.example.zzazo.domain.lecture.domain.LiberalCategory;
+import org.example.zzazo.domain.lecturegroup.entity.LectureGroup;
 import org.example.zzazo.domain.lectureschedule.entity.LectureSchedule;
+import org.example.zzazo.global.entity.BaseTimeEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @Entity @Table(name = "lecture")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Lecture {
+public class Lecture extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lecture_id", nullable = false)
@@ -53,8 +55,22 @@ public class Lecture {
     private String courseCode;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_group_id",nullable = false)
+    private LectureGroup lectureGroup;
+
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LectureSchedule> lectureSchedules = new ArrayList<>();
 
 
+    public boolean isOverlapWith(Lecture other) {
+        for (LectureSchedule mySchedule : this.lectureSchedules) {
+            for (LectureSchedule otherSchedule : other.getLectureSchedules()) {
+                if (mySchedule.isOverlap(otherSchedule)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

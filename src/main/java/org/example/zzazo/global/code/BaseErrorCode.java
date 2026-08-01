@@ -14,8 +14,10 @@ public enum BaseErrorCode implements BaseCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"COMMON_500_1","서버 에러가 발생했습니다."),
     BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON_400_1","잘못된 요청입니다."),
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST,"COMMON_400_2","입력값이 올바르지 않습니다."),
-    TYPE_MISMATCH_ERROR(HttpStatus.BAD_REQUEST,"COMMON_400_3","허용되지 않은 값입니다.");
-
+    TYPE_MISMATCH_ERROR(HttpStatus.BAD_REQUEST,"COMMON_400_3","허용되지 않은 값입니다."),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON_401_1","인증이 필요합니다."),
+    FORBIDDEN(HttpStatus.FORBIDDEN,"COMMON_403_1","해당 요청에 대한 접근 권한이 없습니다."),
+    HTTP_NOT_READABLE(HttpStatus.BAD_REQUEST,"COMMON_400_4","요청 형식이 잘못되었습니다.");
 
     private final HttpStatus status;
     private final String code;

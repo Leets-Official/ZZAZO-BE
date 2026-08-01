@@ -1,4 +1,18 @@
+server:
+  forward-headers-strategy: framework
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true # 요청과 응답 모두 UTF-8을 강제 적용
+
+
 spring:
+  sql:
+    init:
+      mode: always # data.sql 로컬 테스트용
+
+
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
 
@@ -48,3 +62,12 @@ jwt:
   secret: ${JWT_SECRET:zzazo-local-dev-jwt-secret-key-please-change-in-production-0123456789}
   access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:3600000}
   refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION:1209600000}
+
+# 로그 포맷 지정
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%X{traceId}] %-5level %logger{36} - %msg%n"
+
+
+recommend:
+  timeout: 5000000000
