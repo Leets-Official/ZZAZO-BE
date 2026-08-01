@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body style="
+    margin: 0;
+    padding: 0;
+    background: #FAFAFA;
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+">
+
+<div style="
+    width: 500px;
+    margin: 40px auto;
+    padding: 36px;
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    box-sizing: border-box;
+">
+
+    <h2 style="
+        margin: 0 0 24px;
+        text-align: center;
+        color: #1E1A4D;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    ">
+        ZZAZO 이메일 인증
+    </h2>
+
+    <p style="
+        margin: 0 0 24px;
+        text-align: center;
+        color: #314158;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.6;
+    ">
+        아래 인증번호를 입력해주세요.
+    </p>
+
+    <div style="
+        background: #F5F4FE;
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+        color: #4F39F6;
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: 8px;
+    "
+         th:text="${code}">
+        123456
+    </div>
+
+    <p style="
+        margin: 24px 0 0;
+        text-align: center;
+        color: #62748E;
+        font-size: 14px;
+        font-weight: 400;
+    ">
+        인증번호는 5분 동안 유효합니다.
+    </p>
+
+</div>
+
+</body>
+</html>
