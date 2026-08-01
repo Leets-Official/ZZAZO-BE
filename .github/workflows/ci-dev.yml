@@ -21,6 +21,8 @@ jobs:
           cache: 'gradle'
 
       - name: Gradle 빌드
+        env:
+          SPRING_PROFILES_ACTIVE: dev
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build --no-daemon -Dspring.profiles.active=dev
+          ./gradlew clean build --no-daemon
