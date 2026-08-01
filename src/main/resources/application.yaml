@@ -67,6 +67,9 @@ jwt:
 
 # 로그 포맷 지정
 logging:
+  level:
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: TRACE
+    org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{HH:mm:ss.SSS} [%X{traceId}] %-5level %logger{36} - %msg%n"
 
