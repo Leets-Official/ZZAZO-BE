@@ -53,6 +53,9 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+    locations:
+      - classpath:db/migration
+      - classpath:db/seed/local
 
 app:
   email-verification:
@@ -67,9 +70,6 @@ jwt:
 
 # 로그 포맷 지정
 logging:
-  level:
-    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: TRACE
-    org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{HH:mm:ss.SSS} [%X{traceId}] %-5level %logger{36} - %msg%n"
 
