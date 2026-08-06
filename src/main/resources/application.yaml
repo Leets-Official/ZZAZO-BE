@@ -72,7 +72,7 @@ jwt:
 # 로그 포맷 지정
 logging:
   pattern:
-    console: "%d{HH:mm:ss.SSS} [%X{traceId}] %-5level %logger{36} - %msg%n"
+    console: "%d{HH:mm:ss.SSS} [%X{traceId}] [Id:%X{userId}] %-5level %logger{36} - %msg%n"
 
 
 recommend:
