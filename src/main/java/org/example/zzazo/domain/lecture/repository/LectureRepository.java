@@ -1,3 +1,5 @@
+
+
 package org.example.zzazo.domain.lecture.repository;
 
 import org.example.zzazo.domain.lecture.domain.LiberalCategory;

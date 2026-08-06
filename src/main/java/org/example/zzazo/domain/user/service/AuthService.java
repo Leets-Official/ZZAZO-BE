@@ -69,7 +69,6 @@ public class AuthService {
         } else {
             verificationCode = generateVerificationCode();
         }
-
         */
         verificationCode = generateVerificationCode();
 
